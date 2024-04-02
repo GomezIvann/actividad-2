@@ -1,21 +1,14 @@
 <header
-  class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 px-4 mb-4 border-bottom"
+  class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-2 px-3 border-bottom"
 >
-  <div class="col-md-3 mb-2 mb-md-0">
-    <a
-      [routerLink]="['/']"
-      class="d-inline-flex link-body-emphasis text-decoration-none"
-    >
-      <img
-        class="brand-logo"
-        src="/assets/logo.svg"
-        alt="logo"
-        aria-hidden="true"
-      />
-      <span class="fs-4">Grupo 6</span>
-    </a>
-  </div>
-  <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+  <a
+    [routerLink]="['/']"
+    class="d-inline-flex align-items-center gap-2 link-body-emphasis text-decoration-none"
+  >
+    <img height="38" src="/assets/logo.png" alt="logo" aria-hidden="true" />
+    <span class="fs-4">Grupo 6</span>
+  </a>
+  <ul class="nav justify-content-center">
     <li>
       <a
         [routerLink]="['/']"
@@ -43,8 +36,8 @@
       >
     </li>
   </ul>
-  <div class="col-md-3 text-end">
-    <button type="button" class="btn btn-outline-primary me-2">
+  <div class="d-flex align-items-center gap-2">
+    <button type="button" class="btn btn-outline-primary">
       Iniciar sesión
     </button>
     <button type="button" class="btn btn-primary">Registrarse</button>
