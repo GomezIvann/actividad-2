@@ -1,1 +1,18 @@
-<p>tiendas works!</p>
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Tiendas</h1>
+      <p class="lead text-body-secondary">
+        Peluquerías Grupo 5 posee tiendas por toda Valencia para que puedas
+        encontrar aquella que mejor se adapte a tus necesidades.
+      </p>
+    </div>
+  </div>
+</section>
+<div class="album py-5 bg-body-tertiary">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <app-tarjeta-tienda *ngFor="let tienda of tiendas" [tienda]="tienda" />
+    </div>
+  </div>
+</div>
