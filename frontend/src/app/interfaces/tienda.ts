@@ -1,6 +1,9 @@
 export interface Tienda {
   id: number;
-  location: string;
-  city: string;
-  status: "open" | "closed";
+  horario: string;
+  direccion: string;
+  telefono: string;
+  capacidad: number;
+  estado: 'abierta' | 'cerrada' | 'reformas';
+  imagen: string;
 }
