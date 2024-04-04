@@ -1,0 +1,25 @@
+<div class="d-md-flex flex-md-equal">
+  <div
+    class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden w-100"
+    style="max-height: 545px"
+  >
+    <div class="my-3 p-3">
+      <h2 class="display-5">{{ titulo }}</h2>
+      <p class="lead">{{ descripcion }}</p>
+      <a class="icon-link" [routerLink]="[ruta]">
+        Descubre más
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="16"
+          width="16"
+          viewBox="0 -960 960 960"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+        </svg>
+      </a>
+    </div>
+    <ng-content />
+  </div>
+</div>
