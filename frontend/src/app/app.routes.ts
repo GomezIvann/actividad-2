@@ -3,6 +3,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { TiendasComponent } from './components/tiendas/tiendas.component';
 import { ContactoComponent } from './components/contacto/contacto.component';
 import { DetallesTiendaComponent } from './components/detalles-tienda/detalles-tienda.component';
+import { ServiciosComponent } from './components/servicios/servicios.component';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,11 @@ export const routes: Routes = [
     path: 'inicio',
     component: InicioComponent,
     title: 'Inicio',
+  },
+  {
+    path: 'servicios',
+    component: ServiciosComponent,
+    title: 'Servicios',
   },
   {
     path: 'tiendas',
