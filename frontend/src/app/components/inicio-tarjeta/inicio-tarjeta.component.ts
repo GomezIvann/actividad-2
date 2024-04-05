@@ -12,4 +12,5 @@ export class InicioTarjetaComponent {
   @Input() titulo: string = "";
   @Input() descripcion: string = "";
   @Input() ruta: string = "";
+  @Input() color: string = "";
 }
