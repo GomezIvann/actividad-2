@@ -5,6 +5,7 @@ import { ContactoComponent } from './components/contacto/contacto.component';
 import { DetallesTiendaComponent } from './components/detalles-tienda/detalles-tienda.component';
 import { ServiciosComponent } from './components/servicios/servicios.component';
 import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.component';
+import { EmpleadosComponent } from './components/empleados/empleados.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,11 @@ export const routes: Routes = [
     path: 'reservar-cita',
     component: ReservarCitaComponent,
     title: 'Reserva tu cita',
+  },
+  {
+    path: 'empleados',
+    component: EmpleadosComponent,
+    title: 'Empleados',
   },
   {
     path: '**',

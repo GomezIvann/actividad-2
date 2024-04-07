@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './reservar-cita.component.html',
-  styleUrl: './reservar-cita.component.css'
+  styleUrl: './reservar-cita.component.css',
 })
-export class ReservarCitaComponent {
-
-}
+export class ReservarCitaComponent {}
