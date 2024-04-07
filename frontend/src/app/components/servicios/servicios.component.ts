@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Servicio } from '../../interfaces/servicio';
 import { ServicioService } from '../../services/servicio.service';
 import { CommonModule } from '@angular/common';
@@ -14,9 +14,12 @@ import { RouterLink } from '@angular/router';
 })
 export class ServiciosComponent {
   servicios: Servicio[] = [];
-  servicioServicio: ServicioService = inject(ServicioService);
 
-  constructor() {
-    this.servicios = this.servicioServicio.obtenerServicios();
+  constructor(private _servicioServicio: ServicioService) {}
+
+  ngOnInit(): void {
+    this._servicioServicio.obtenerServicios().subscribe((response) => {
+      this.servicios = response.data;
+    });
   }
 }

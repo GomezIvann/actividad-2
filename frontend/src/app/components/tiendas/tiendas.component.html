@@ -13,7 +13,13 @@
   <div class="album py-5 bg-body-tertiary flex-grow-1">
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <app-tarjeta-tienda *ngFor="let tienda of tiendas" [tienda]="tienda" />
+        <app-tarjeta
+          *ngFor="let tienda of tiendas"
+          [titulo]="tienda.direccion"
+          [imagen]="tienda.imagen"
+          [ruta]="'/detalles-tienda'"
+          [id]="tienda.id"
+        />
       </div>
     </div>
   </div>

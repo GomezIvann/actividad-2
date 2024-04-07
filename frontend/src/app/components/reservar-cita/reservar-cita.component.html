@@ -1,5 +1,5 @@
 <div class="d-flex flex-column h-100">
-  <div class="pt-5 pb-2 text-center container">
+  <div class="pt-5 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Reserva tu cita</h1>
@@ -11,26 +11,104 @@
     </div>
   </div>
   <form class="container pb-5">
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Email address</label>
-      <input
-        type="email"
-        class="form-control"
-        id="exampleInputEmail1"
-        aria-describedby="emailHelp"
-      />
-      <div id="emailHelp" class="form-text">
-        We'll never share your email with anyone else.
+    <div class="row mb-4">
+      <div class="col">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          name="nombre"
+          required
+        />
+      </div>
+      <div class="col">
+        <label for="apellidos" class="form-label">Apellidos</label>
+        <input
+          type="text"
+          class="form-control"
+          id="apellidos"
+          name="apellidos"
+          required
+        />
       </div>
     </div>
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" />
+    <div class="row mb-4">
+      <div class="col">
+        <label for="email" class="form-label">
+          Correo electrónico <span class="text-body-secondary">(Opcional)</span>
+        </label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="tucorreo@ejemplo.com"
+        />
+        <div class="invalid-feedback">
+          Por favor, introduzca un correo electrónico válido.
+        </div>
+      </div>
+      <div class="col">
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input
+          type="tel"
+          class="form-control"
+          id="telefono"
+          name="telefono"
+          required
+        />
+      </div>
     </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    <div class="row mb-4">
+      <div class="col">
+        <label for="horario" class="form-label">Horario</label>
+        <select class="form-select" id="horario" name="horario" required>
+          <option value="" selected>Selecciona un horario</option>
+          <option value="10:00">10:00</option>
+          <option value="11:00">11:00</option>
+          <option value="12:00">12:00</option>
+          <option value="13:00">13:00</option>
+          <option value="16:00">16:00</option>
+          <option value="17:00">17:00</option>
+          <option value="18:00">18:00</option>
+          <option value="19:00">19:00</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input
+          type="date"
+          class="form-control"
+          id="fecha"
+          name="fecha"
+          required
+        />
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="row mb-5">
+      <div class="col">
+        <label for="centro" class="form-label">Centro</label>
+        <select class="form-select" id="centro" name="centro" required>
+          <option value="" selected>Selecciona un centro</option>
+          <option value="1">Centro 1</option>
+          <option value="2">Centro 2</option>
+          <option value="3">Centro 3</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="servicio" class="form-label">Servicio</label>
+        <select class="form-select" id="servicio" name="servicio" required>
+          <option value="" selected>Selecciona un servicio</option>
+          <option value="1">Servicio 1</option>
+          <option value="2">Servicio 2</option>
+          <option value="3">Servicio 3</option>
+        </select>
+      </div>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="align-self-center btn btn-primary">
+        Reservar
+      </button>
+    </div>
   </form>
 </div>

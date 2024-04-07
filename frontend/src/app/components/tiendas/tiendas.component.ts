@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TiendaService } from '../../services/tienda.service';
 import { Tienda } from '../../interfaces/tienda';
-import { TarjetaTiendaComponent } from '../tarjeta-tienda/tarjeta-tienda.component';
+import { TarjetaComponent } from '../tarjeta/tarjeta.component';
 
 @Component({
   selector: 'app-tiendas',
   standalone: true,
-  imports: [CommonModule, TarjetaTiendaComponent],
+  imports: [CommonModule, TarjetaComponent],
   templateUrl: './tiendas.component.html',
   styleUrl: './tiendas.component.css',
 })
