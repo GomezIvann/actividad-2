@@ -1,34 +1,25 @@
-<section class="py-5 text-center container">
-  <div class="row py-lg-5">
-    <div class="col-lg-6 col-md-8 mx-auto">
-      <h1 class="fw-light">Servicios</h1>
-      <p class="lead text-body-secondary">
-        En nuestros centros podrás encontrar todo lo que necesitas para el
-        cuidado personal: corte de pelo, peinado, tratamiento, afeitado,
-        matizado, etc.
-      </p>
-    </div>
-  </div>
-</section>
-
-<div class="album py-5 bg-body-tertiary">
-  <div class="container">
-    <div class="row">
-      <div *ngFor="let servicio of servicios" class="col">
-        <div class="card h-100">
-          <div class="card-body text-center d-flex flex-column gap-1">
-            <h4 class="card-title mb-0">{{ servicio.nombre }}</h4>
-            <hr class="my-2" />
-            <p class="card-text flex-grow-1">{{ servicio.descripcion }}</p>
-            <p
-              class="card-text d-flex gap-2 justify-content-center align-items-center"
-            >
-              Precio:
-              <span class="badge text-bg-primary">{{ servicio.precio }}€</span>
-            </p>
-          </div>
-        </div>
+<section class="d-flex flex-column h-100">
+  <div class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Servicios</h1>
+        <p class="lead text-body-secondary">
+          En nuestros centros podrás encontrar todo lo que necesitas para el
+          cuidado personal: corte de pelo, peinado, tratamiento, afeitado,
+          matizado, etc.
+        </p>
       </div>
     </div>
   </div>
-</div>
+  <div class="album py-5 bg-body-tertiary flex-grow-1">
+    <div class="container">
+      <div class="row">
+        <app-tarjeta-servicio
+          *ngFor="let servicio of servicios"
+          [servicio]="servicio"
+          class="col"
+        />
+      </div>
+    </div>
+  </div>
+</section>
