@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TiendaService } from '../../services/tienda.service';
 import { Tienda } from '../../interfaces/tienda';
@@ -13,9 +13,12 @@ import { TarjetaTiendaComponent } from '../tarjeta-tienda/tarjeta-tienda.compone
 })
 export class TiendasComponent {
   tiendas: Tienda[] = [];
-  servicioTienda: TiendaService = inject(TiendaService);
 
-  constructor() {
-    this.tiendas = this.servicioTienda.obtenerTiendas();
+  constructor(private _servicioTienda: TiendaService) {}
+
+  ngOnInit(): void {
+    this._servicioTienda.obtenerTiendas().subscribe((response) => {
+      this.tiendas = response.data;
+    });
   }
 }

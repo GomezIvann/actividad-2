@@ -13,11 +13,18 @@ import { TitleCasePipe } from '@angular/common';
 })
 export class DetallesTiendaComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
-  servicioTienda: TiendaService = inject(TiendaService);
   tienda: Tienda | undefined;
 
-  constructor() {
-    const tiendaId = Number(this.route.snapshot.params['id']);
-    this.tienda = this.servicioTienda.obtenerTiendaPorId(tiendaId);
+  constructor(private _servicioTienda: TiendaService) {}
+
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      const tiendaId = Number(params['id']);
+      this._servicioTienda
+        .obtenerTiendaPorId(tiendaId)
+        .subscribe((response) => {
+          this.tienda = response.data;
+        });
+    });
   }
 }
