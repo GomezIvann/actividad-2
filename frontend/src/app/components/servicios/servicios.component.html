@@ -1,4 +1,4 @@
-<section class="d-flex flex-column h-100">
+<div class="d-flex flex-column h-100">
   <div class="py-5 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="album py-5 bg-body-tertiary flex-grow-1">
-    <div class="container">
+    <div class="container g-3">
       <div class="row">
         <app-tarjeta-servicio
           *ngFor="let servicio of servicios"
@@ -20,6 +20,13 @@
           class="col"
         />
       </div>
+      <div class="row">
+        <div class="col text-center">
+          <button class="btn btn-primary" [routerLink]="['/reservar-cita']">
+            Reserva ahora
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-</section>
+</div>
