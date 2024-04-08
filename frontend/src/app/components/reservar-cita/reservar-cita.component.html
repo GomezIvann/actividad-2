@@ -35,31 +35,41 @@
     </div>
     <div class="row mb-4">
       <div class="col">
-        <label for="email" class="form-label">
-          Correo electrónico <span class="text-body-secondary">(Opcional)</span>
-        </label>
+        <label for="email" class="form-label">Correo electrónico</label>
         <input
           type="email"
           class="form-control"
           id="email"
+          name="email"
           placeholder="tucorreo@ejemplo.com"
+          required
         />
-        <div class="invalid-feedback">
-          Por favor, introduzca un correo electrónico válido.
-        </div>
       </div>
       <div class="col">
-        <label for="telefono" class="form-label">Teléfono</label>
+        <label for="telefono" class="form-label">
+          Teléfono
+          <span class="text-muted">(opcional)</span>
+        </label>
         <input
           type="tel"
           class="form-control"
           id="telefono"
           name="telefono"
-          required
+          placeholder="123456789"
         />
       </div>
     </div>
     <div class="row mb-4">
+      <div class="col">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input
+          type="date"
+          class="form-control"
+          id="fecha"
+          name="fecha"
+          required
+        />
+      </div>
       <div class="col">
         <label for="horario" class="form-label">Horario</label>
         <select class="form-select" id="horario" name="horario" required>
@@ -74,34 +84,32 @@
           <option value="19:00">19:00</option>
         </select>
       </div>
-      <div class="col">
-        <label for="fecha" class="form-label">Fecha</label>
-        <input
-          type="date"
-          class="form-control"
-          id="fecha"
-          name="fecha"
-          required
-        />
-      </div>
     </div>
-    <div class="row mb-5">
-      <div class="col">
-        <label for="centro" class="form-label">Centro</label>
-        <select class="form-select" id="centro" name="centro" required>
-          <option value="" selected>Selecciona un centro</option>
-          <option value="1">Centro 1</option>
-          <option value="2">Centro 2</option>
-          <option value="3">Centro 3</option>
-        </select>
-      </div>
+    <div class="row mb-4">
       <div class="col">
         <label for="servicio" class="form-label">Servicio</label>
         <select class="form-select" id="servicio" name="servicio" required>
           <option value="" selected>Selecciona un servicio</option>
-          <option value="1">Servicio 1</option>
-          <option value="2">Servicio 2</option>
-          <option value="3">Servicio 3</option>
+          <option *ngFor="let servicio of servicios" [value]="servicio.id">
+            {{ servicio.nombre }}
+          </option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="empleado" class="form-label">Empleado</label>
+        <select class="form-select" id="empleado" name="empleado" disabled>
+          <option value="" selected>Selecciona un empleado</option>
+        </select>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col">
+        <label for="tienda" class="form-label">Tienda</label>
+        <select class="form-select" id="tienda" name="tienda" required>
+          <option value="" selected>Selecciona una localización</option>
+          <option *ngFor="let tienda of tiendas" [value]="tienda.id">
+            {{ tienda.direccion }}
+          </option>
         </select>
       </div>
     </div>
