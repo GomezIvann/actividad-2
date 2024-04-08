@@ -15,7 +15,7 @@
     [formGroup]="reservarCitaForm"
     (ngSubmit)="reservarCita()"
   >
-    <mat-stepper formArrayName="formArray" linear #stepper>
+    <mat-stepper formArrayName="formArray" linear>
       <mat-step
         formGroupName="0"
         [stepControl]="formArray.get([0])"
@@ -32,6 +32,12 @@
               formControlName="nombre"
               required
             />
+            <span
+              *ngIf="formArray.get([0]).get('nombre').errors?.required"
+              class="text-danger"
+            >
+              El nombre es obligatorio.
+            </span>
           </div>
           <div class="col">
             <label for="apellidos" class="form-label">Apellidos</label>
@@ -43,6 +49,18 @@
               formControlName="apellidos"
               required
             />
+            <span
+              *ngIf="formArray.get([0]).get('apellidos').errors?.required"
+              class="text-danger"
+            >
+              Los apellidos son obligatorios.
+            </span>
+            <span
+              *ngIf="formArray.get([0]).get('apellidos').errors?.minlength"
+              class="text-danger"
+            >
+              Los apellidos tienen una longitud mínima de 8 caracteres.
+            </span>
           </div>
         </div>
         <div class="row mb-5">
@@ -57,6 +75,12 @@
               placeholder="tucorreo@ejemplo.com"
               required
             />
+            <span
+              *ngIf="formArray.get([0]).get('email').errors?.email"
+              class="text-danger"
+            >
+              El correo electrónico introducido no es válido.
+            </span>
           </div>
           <div class="col">
             <label for="telefono" class="form-label">
@@ -73,6 +97,18 @@
                 formControlName="telefono"
                 placeholder="123456789"
               />
+              <span
+                *ngIf="formArray.get([0]).get('telefono').errors?.minlength"
+                class="text-danger"
+              >
+                De indicarlo, el teléfono ha de tener una longitud de 9 dígitos.
+              </span>
+              <span
+                *ngIf="formArray.get([0]).get('telefono').errors?.number"
+                class="text-danger"
+              >
+                De indicarlo, por favor, introduce solo números.
+              </span>
             </div>
           </div>
         </div>

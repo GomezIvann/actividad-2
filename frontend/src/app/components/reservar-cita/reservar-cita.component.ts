@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { NumberValidator } from '../../common/NumberValidator';
 
 @Component({
   selector: 'app-reservar-cita',
@@ -30,9 +31,12 @@ export class ReservarCitaComponent {
     formArray: this._formBuilder.array([
       this._formBuilder.group({
         nombre: ['', Validators.required],
-        apellidos: ['', Validators.required],
+        apellidos: ['', [Validators.required, Validators.minLength(8)]],
         email: ['', Validators.email],
-        telefono: [''],
+        telefono: [
+          '',
+          [Validators.minLength(9), Validators.maxLength(9), NumberValidator()],
+        ],
       }),
       this._formBuilder.group({
         servicio: ['', Validators.required],
