@@ -10,113 +10,187 @@
       </div>
     </div>
   </div>
-  <form class="container pb-5">
-    <div class="row mb-4">
-      <div class="col">
-        <label for="nombre" class="form-label">Nombre</label>
-        <input
-          type="text"
-          class="form-control"
-          id="nombre"
-          name="nombre"
-          required
-        />
-      </div>
-      <div class="col">
-        <label for="apellidos" class="form-label">Apellidos</label>
-        <input
-          type="text"
-          class="form-control"
-          id="apellidos"
-          name="apellidos"
-          required
-        />
-      </div>
-    </div>
-    <div class="row mb-4">
-      <div class="col">
-        <label for="email" class="form-label">Correo electrónico</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          name="email"
-          placeholder="tucorreo@ejemplo.com"
-          required
-        />
-      </div>
-      <div class="col">
-        <label for="telefono" class="form-label">
-          Teléfono
-          <span class="text-muted">(opcional)</span>
-        </label>
-        <input
-          type="tel"
-          class="form-control"
-          id="telefono"
-          name="telefono"
-          placeholder="123456789"
-        />
-      </div>
-    </div>
-    <div class="row mb-4">
-      <div class="col">
-        <label for="fecha" class="form-label">Fecha</label>
-        <input
-          type="date"
-          class="form-control"
-          id="fecha"
-          name="fecha"
-          required
-        />
-      </div>
-      <div class="col">
-        <label for="horario" class="form-label">Horario</label>
-        <select class="form-select" id="horario" name="horario" required>
-          <option value="" selected>Selecciona un horario</option>
-          <option value="10:00">10:00</option>
-          <option value="11:00">11:00</option>
-          <option value="12:00">12:00</option>
-          <option value="13:00">13:00</option>
-          <option value="16:00">16:00</option>
-          <option value="17:00">17:00</option>
-          <option value="18:00">18:00</option>
-          <option value="19:00">19:00</option>
-        </select>
-      </div>
-    </div>
-    <div class="row mb-4">
-      <div class="col">
-        <label for="servicio" class="form-label">Servicio</label>
-        <select class="form-select" id="servicio" name="servicio" required>
-          <option value="" selected>Selecciona un servicio</option>
-          <option *ngFor="let servicio of servicios" [value]="servicio.id">
-            {{ servicio.nombre }}
-          </option>
-        </select>
-      </div>
-      <div class="col">
-        <label for="empleado" class="form-label">Empleado</label>
-        <select class="form-select" id="empleado" name="empleado" disabled>
-          <option value="" selected>Selecciona un empleado</option>
-        </select>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col">
-        <label for="tienda" class="form-label">Tienda</label>
-        <select class="form-select" id="tienda" name="tienda" required>
-          <option value="" selected>Selecciona una localización</option>
-          <option *ngFor="let tienda of tiendas" [value]="tienda.id">
-            {{ tienda.direccion }}
-          </option>
-        </select>
-      </div>
-    </div>
-    <div class="text-center">
-      <button type="submit" class="align-self-center btn btn-primary">
-        Reservar
-      </button>
-    </div>
+  <form
+    class="container pb-5"
+    [formGroup]="reservarCitaForm"
+    (ngSubmit)="reservarCita()"
+  >
+    <mat-stepper formArrayName="formArray" linear #stepper>
+      <mat-step
+        formGroupName="0"
+        [stepControl]="formArray.get([0])"
+        label="Información personal"
+      >
+        <div class="row mt-5 mb-4">
+          <div class="col">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nombre"
+              name="nombre"
+              formControlName="nombre"
+              required
+            />
+          </div>
+          <div class="col">
+            <label for="apellidos" class="form-label">Apellidos</label>
+            <input
+              type="text"
+              class="form-control"
+              id="apellidos"
+              name="apellidos"
+              formControlName="apellidos"
+              required
+            />
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col">
+            <label for="email" class="form-label">Correo electrónico</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              formControlName="email"
+              placeholder="tucorreo@ejemplo.com"
+              required
+            />
+          </div>
+          <div class="col">
+            <label for="telefono" class="form-label">
+              Teléfono
+              <span class="text-muted">(opcional)</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon1">+34</span>
+              <input
+                type="tel"
+                class="form-control"
+                id="telefono"
+                name="telefono"
+                formControlName="telefono"
+                placeholder="123456789"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-primary" matStepperNext type="button">
+            Siguiente
+          </button>
+        </div>
+      </mat-step>
+      <mat-step
+        formGroupName="1"
+        [stepControl]="formArray.get([1])"
+        label="Servicio y empleado"
+      >
+        <div class="row my-5">
+          <div class="col">
+            <label for="servicio" class="form-label">Servicio</label>
+            <select
+              class="form-select"
+              id="servicio"
+              name="servicio"
+              required
+              formControlName="servicio"
+            >
+              <option value="" disabled selected>Selecciona un servicio</option>
+              <option *ngFor="let servicio of servicios" [value]="servicio.id">
+                {{ servicio.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="empleado" class="form-label">Empleado</label>
+            <select
+              class="form-select"
+              id="empleado"
+              name="empleado"
+              formControlName="empleado"
+              required
+            >
+              <option value="" disabled selected>Selecciona un empleado</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center gap-2">
+          <button
+            class="btn btn-outline-primary"
+            matStepperPrevious
+            type="button"
+          >
+            Anterior
+          </button>
+          <button class="btn btn-primary" matStepperNext type="button">
+            Siguiente
+          </button>
+        </div>
+      </mat-step>
+      <mat-step
+        formGroupName="2"
+        [stepControl]="formArray.get([2])"
+        label="Fecha, tienda y hora"
+      >
+        <div class="row mt-5 mb-4">
+          <div class="col">
+            <label for="fecha" class="form-label">Fecha</label>
+            <input
+              type="date"
+              class="form-control"
+              id="fecha"
+              name="fecha"
+              formControlName="fecha"
+              required
+            />
+          </div>
+          <div class="col">
+            <label for="tienda" class="form-label">Tienda</label>
+            <select class="form-select" id="tienda" name="tienda" required>
+              <option value="" disabled selected>
+                Selecciona una localización
+              </option>
+              <option *ngFor="let tienda of tiendas" [value]="tienda.id">
+                {{ tienda.direccion }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col">
+            <label for="horario" class="form-label">Horario</label>
+            <select
+              class="form-select"
+              id="horario"
+              name="horario"
+              formControlName="horario"
+              required
+            >
+              <option value="" disabled selected>Selecciona un horario</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="12:00">12:00</option>
+              <option value="13:00">13:00</option>
+              <option value="16:00">16:00</option>
+              <option value="17:00">17:00</option>
+              <option value="18:00">18:00</option>
+              <option value="19:00">19:00</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center gap-2">
+          <button
+            class="btn btn-outline-primary"
+            matStepperPrevious
+            type="button"
+          >
+            Anterior
+          </button>
+          <button type="submit" class="btn btn-primary">Reservar</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
   </form>
 </div>
