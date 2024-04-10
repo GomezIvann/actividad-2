@@ -3,7 +3,7 @@ import { Servicio } from '../interfaces/servicio';
 import { API_BASE_URL } from '../common/constantes-api';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RespuestaAPI, RespuestaAPIPaginada } from '../common/respuestas-api';
+import { RespuestaAPIPaginada } from '../common/respuestas-api';
 
 @Injectable({
   providedIn: 'root',

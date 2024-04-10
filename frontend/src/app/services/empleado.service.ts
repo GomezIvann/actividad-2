@@ -11,8 +11,6 @@ import { Empleado } from '../interfaces/empleado';
 export class EmpleadoService {
   url = `${API_BASE_URL}empleados`;
 
-  mockEmpleados: Empleado[] = [];
-
   constructor(private http: HttpClient) {}
 
   obtenerEmpleados(): Observable<RespuestaAPIPaginada<Empleado[]>> {
