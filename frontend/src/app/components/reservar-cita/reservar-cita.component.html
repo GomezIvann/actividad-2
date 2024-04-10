@@ -16,14 +16,51 @@
     (ngSubmit)="reservarCita()"
     #rescitForm="ngForm"
   >
-    <mat-stepper formArrayName="formArray" linear>
+    <mat-stepper formArrayName="formArray">
       <mat-step
         formGroupName="0"
         [stepControl]="formArray.get([0])"
         label="Información personal"
       >
+        <p class="text-center text-body-secondary mt-5">
+          Si ya has reservado con nosotros, tus datos se cargarán
+          automáticamente al introducir tu DNI y podrás avanzar directamente al
+          paso 2 si así lo deseas.
+        </p>
         <div class="row mt-5 mb-5">
-          <div class="col">
+          <div class="col-4">
+            <label for="dni" class="form-label">DNI</label>
+            <input
+              type="text"
+              class="form-control"
+              id="dni"
+              name="dni"
+              formControlName="dni"
+              placeholder="12345678A"
+              required
+            />
+            <div
+              *ngIf="dni.invalid && (dni.dirty || dni.touched)"
+              style="position: absolute"
+            >
+              <div *ngIf="dni.errors?.required" class="text-danger">
+                El DNI es obligatorio.
+              </div>
+              <div *ngIf="dni.errors?.pattern" class="text-danger">
+                El DNI introducido no es válido.
+              </div>
+            </div>
+            <div
+              *ngIf="dni.valid"
+              style="position: absolute"
+              class="text-success"
+            >
+              <div>El DNI introducido es válido.</div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col-4">
             <label for="nombre" class="form-label">Nombre</label>
             <input
               type="text"
@@ -42,7 +79,7 @@
               </div>
             </div>
           </div>
-          <div class="col">
+          <div class="col-6">
             <label for="apellidos" class="form-label">Apellidos</label>
             <input
               type="text"
@@ -65,6 +102,23 @@
                 Los apellidos tienen una longitud mínima de 8 caracteres.
               </div>
             </div>
+          </div>
+          <div class="col-2">
+            <label for="genero" class="form-label">
+              Género
+              <span class="text-muted">(opcional)</span>
+            </label>
+            <select
+              class="form-select"
+              id="genero"
+              name="genero"
+              formControlName="genero"
+            >
+              <option value="" selected>Selecciona tu género</option>
+              <option value="Hombre">Hombre</option>
+              <option value="Mujer">Mujer</option>
+              <option value="Otro">Otro</option>
+            </select>
           </div>
         </div>
         <div class="row mb-5">
@@ -118,6 +172,80 @@
                 De indicarlo, por favor, introduce solo números.
               </div>
             </div>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col-6">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input
+              type="text"
+              class="form-control"
+              id="direccion"
+              name="direccion"
+              formControlName="direccion"
+              required
+            />
+            <div
+              *ngIf="
+                direccion.invalid && (direccion.dirty || direccion.touched)
+              "
+              style="position: absolute"
+            >
+              <div *ngIf="direccion.errors?.required" class="text-danger">
+                La dirección es obligatoria.
+              </div>
+            </div>
+          </div>
+          <div class="col-3">
+            <label for="ciudad" class="form-label">Ciudad</label>
+            <input
+              type="text"
+              class="form-control"
+              id="ciudad"
+              name="ciudad"
+              formControlName="ciudad"
+              required
+            />
+            <div
+              *ngIf="ciudad.invalid && (ciudad.dirty || ciudad.touched)"
+              style="position: absolute"
+            >
+              <div *ngIf="ciudad.errors?.required" class="text-danger">
+                La ciudad es obligatoria.
+              </div>
+            </div>
+          </div>
+          <div class="col-3">
+            <label for="pais" class="form-label">País de origen</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pais"
+              name="pais"
+              formControlName="pais"
+              required
+            />
+            <div
+              *ngIf="pais.invalid && (pais.dirty || pais.touched)"
+              style="position: absolute"
+            >
+              <div *ngIf="pais.errors?.required" class="text-danger">
+                El país de origen es obligatorio.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="almacenarUsuario"
+              formControlName="almacenarUsuario"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              ¿Deseas que se almacenen tus datos para futuras citas?
+            </label>
           </div>
         </div>
         <div class="text-center pt-4">
@@ -196,16 +324,9 @@
               required
             >
               <option value="" disabled selected>Selecciona un horario</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="19:00">20:00</option>
+              <option *ngFor="let hora of horariosDisponibles" [value]="hora">
+                {{ hora }}
+              </option>
             </select>
             <div
               *ngIf="horario.invalid && (horario.dirty || horario.touched)"
@@ -252,7 +373,7 @@
               name="empleado"
               formControlName="empleado"
             >
-              <option value="" disabled selected>Selecciona un empleado</option>
+              <option value="" selected>Selecciona un empleado</option>
               <option *ngFor="let empleado of empleados" [value]="empleado.id">
                 {{ empleado.nombre }}
               </option>
@@ -269,9 +390,7 @@
               name="tienda"
               formControlName="tienda"
             >
-              <option value="" disabled selected>
-                Selecciona una localización
-              </option>
+              <option value="" selected>Selecciona una localización</option>
               <option *ngFor="let tienda of tiendas" [value]="tienda.id">
                 {{ tienda.direccion }}
               </option>

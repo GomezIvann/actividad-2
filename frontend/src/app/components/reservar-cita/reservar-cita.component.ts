@@ -11,6 +11,10 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { EmpleadoService } from '../../services/empleado.service';
 import { Empleado } from '../../interfaces/empleado';
 import { Router } from '@angular/router';
+import { CitaService } from '../../services/cita.service';
+import { Cita } from '../../interfaces/cita';
+import { Usuario } from '../../interfaces/usuario';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-reservar-cita',
@@ -30,11 +34,15 @@ export class ReservarCitaComponent {
   empleados: Empleado[] = [];
   tiendas: Tienda[] = [];
 
+  horariosDisponibles: string[] = [];
+
   reservarCitaForm = this._formBuilder.group({
     formArray: this._formBuilder.array([
       this._formBuilder.group({
+        dni: ['', [Validators.required, Validators.pattern(/^[0-9]{8}[A-Z]$/)]],
         nombre: ['', Validators.required],
         apellidos: ['', [Validators.required, Validators.minLength(8)]],
+        genero: [''],
         email: ['', [Validators.required, Validators.email]],
         telefono: [
           '',
@@ -44,6 +52,10 @@ export class ReservarCitaComponent {
             Validators.pattern(/^[0-9]+$/),
           ],
         ],
+        direccion: ['', Validators.required],
+        ciudad: ['', Validators.required],
+        pais: ['', Validators.required],
+        almacenarDatos: [false],
       }),
       this._formBuilder.group({
         servicio: ['', Validators.required],
@@ -58,8 +70,10 @@ export class ReservarCitaComponent {
   });
 
   constructor(
-    private _servicioServicio: ServicioService,
+    private _citaServicio: CitaService,
     private _empleadoServicio: EmpleadoService,
+    private _servicioServicio: ServicioService,
+    private _usuarioServicio: UsuarioService,
     private _tiendaServicio: TiendaService,
     private _formBuilder: FormBuilder,
     private _router: Router
@@ -76,9 +90,30 @@ export class ReservarCitaComponent {
       this.tiendas = response.data.data;
     });
 
+    this.dni.valueChanges.subscribe(() => {
+      this._usuarioServicio
+        .obtenerUsuarioPorDni(this.dni.value)
+        .subscribe((response) => {
+          if (response.data) {
+            this.nombre.setValue(response.data.nombre);
+            this.apellidos.setValue(response.data.apellidos);
+            this.email.setValue(response.data.correo);
+            this.direccion.setValue(response.data.direccion);
+            this.ciudad.setValue(response.data.ciudad);
+            this.pais.setValue(response.data.pais);
+            this.genero.setValue(response.data.genero);
+            this.telefono.setValue(response.data.telefono);
+          }
+        });
+    });
+
     this.fecha.valueChanges.subscribe(() => {
-      if (this.formArray.at(1).get('fecha').value)
+      if (this.formArray.at(1).get('fecha').value) {
         this.formArray.at(1).get('horario').enable();
+        this.generarHorariosDisponibles(
+          this.formArray.at(1).get('fecha').value
+        );
+      }
     });
     this.servicio.valueChanges.subscribe(() => {
       if (this.formArray.at(1).get('servicio').value)
@@ -98,12 +133,36 @@ export class ReservarCitaComponent {
     return this.formArray.at(0).get('apellidos');
   }
 
+  get dni() {
+    return this.formArray.at(0).get('dni');
+  }
+
   get email() {
     return this.formArray.at(0).get('email');
   }
 
   get telefono() {
     return this.formArray.at(0).get('telefono');
+  }
+
+  get direccion() {
+    return this.formArray.at(0).get('direccion');
+  }
+
+  get ciudad() {
+    return this.formArray.at(0).get('ciudad');
+  }
+
+  get pais() {
+    return this.formArray.at(0).get('pais');
+  }
+
+  get genero() {
+    return this.formArray.at(0).get('genero');
+  }
+
+  get almacenarDatos() {
+    return this.formArray.at(0).get('almacenarDatos');
   }
 
   get servicio() {
@@ -126,11 +185,54 @@ export class ReservarCitaComponent {
     return this.formArray.at(2).get('tienda');
   }
 
+  /**
+   * Genera los horarios disponibles para la fecha seleccionada
+   * Si la fecha seleccionada es la actual, se generan los horarios a partir de la hora actual.
+   * Si la fecha seleccionada es distinta a la actual, se generan los horarios a partir de las 9:00 hasta las 20:00.
+   * @param fecha
+   */
+  generarHorariosDisponibles(fechaSeleccionada: string): void {
+    const fechaActual = new Date().toISOString().split('T')[0];
+    if (fechaSeleccionada === fechaActual) {
+      const horaActual = new Date().getHours() + 1;
+      for (let i = horaActual; i <= 20; i++) {
+        const hora = `${i.toString().padStart(2, '0')}:00`;
+        this.horariosDisponibles.push(hora);
+      }
+    } else {
+      for (let i = 9; i <= 20; i++) {
+        const hora = `${i.toString().padStart(2, '0')}:00`;
+        this.horariosDisponibles.push(hora);
+      }
+    }
+  }
+
   reservarCita(): void {
-    let text = 'Vas a reservar la cita, ¿estás seguro?';
-    if (confirm(text) == true) {
-      // console.warn(this.reservarCitaForm.value);
-      this._router.navigate(['/cita-confirmada']);
+    const textoConfirmacion = 'Vas a reservar la cita, ¿estás seguro?';
+    if (confirm(textoConfirmacion) == true) {
+      const usuario: Usuario = {
+        dni: this.dni.value,
+        nombre: this.nombre.value,
+        apellidos: this.apellidos.value,
+        genero: this.genero.value,
+        direccion: this.direccion.value,
+        ciudad: this.ciudad.value,
+        pais: this.pais.value,
+        correo: this.email.value,
+        telefono: this.telefono.value,
+      };
+      const cita: Cita = {
+        dni_usuario: usuario.dni,
+        id_empleado: this.empleado.value,
+        id_tienda: this.tienda.value,
+        fecha: this.fecha.value,
+        hora: this.horario.value,
+      };
+      this.almacenarDatos && this._usuarioServicio.registrarUsuario(usuario);
+      this._citaServicio.reservarCita(cita);
+
+      // TODO: Redirigir a la página de confirmación de cita SOLO si la petición se ha realizado correctamente
+      // this._router.navigate(['/cita-confirmada']);
     }
   }
 }
