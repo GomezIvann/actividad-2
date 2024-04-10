@@ -16,10 +16,10 @@ class CreateServiciosTable extends Migration
         Schema::create('servicios', function (Blueprint $table) {
             $table->bigIncrements('codigo');
             $table->text('descripcion');
-            $table->integer('puntos');
             $table->string('nombre', 255);
             $table->decimal('precio', 8, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

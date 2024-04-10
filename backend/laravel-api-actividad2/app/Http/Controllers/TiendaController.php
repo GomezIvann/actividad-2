@@ -16,7 +16,7 @@ class TiendaController extends Controller
      */
     public function index()
     {
-        $tiendas = Tienda::all();
+        $tiendas = Tienda::paginate(10);
         $resultResponse = new ResultResponse();
         $resultResponse->setData($tiendas);
         $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
@@ -37,6 +37,8 @@ class TiendaController extends Controller
                 'direccion' => $request->get('direccion'),
                 'telefono' => $request->get('telefono'),
                 'capacidad' => $request->get('capacidad'),
+                'estado' => $request->get('estado'), 
+                'imagen' => $request->get('imagen')
             ]);
 
             $nuevaTienda->save();
@@ -83,6 +85,8 @@ class TiendaController extends Controller
             $tienda->direccion = $request->get('direccion');
             $tienda->telefono = $request->get('telefono');
             $tienda->capacidad = $request->get('capacidad');
+            $tienda->estado = $request->get('estado'); 
+            $tienda->imagen = $request->get('imagen'); 
 
             $tienda->save();
 
@@ -111,6 +115,8 @@ public function put(Request $request, $id)
         $tienda->direccion = $request->input('direccion', $tienda->direccion);
         $tienda->telefono = $request->input('telefono', $tienda->telefono);
         $tienda->capacidad = $request->input('capacidad', $tienda->capacidad);
+        $tienda->estado = $request->get('estado', $tienda->estado); 
+        $tienda->imagen = $request->get('imagen', $tienda->imagen); 
 
         $tienda->save();
 
@@ -149,6 +155,31 @@ public function put(Request $request, $id)
         return response()->json($resultResponse);
     }
 
+    public function buscar(Request $request)
+    {
+        $query = Tienda::query();
+
+        if ($request->has('horario')) {
+            $query->where('horario', 'like', '%' . $request->input('horario') . '%');
+        }
+
+        if ($request->has('direccion')) {
+            $query->where('direccion', 'like', '%' . $request->input('direccion') . '%');
+        }
+
+        if ($request->has('telefono')) {
+            $query->where('telefono', 'like', '%' . $request->input('telefono') . '%');
+        }
+
+        if ($request->has('estado')) {
+            $query->where('estado', 'like', '%' . $request->input('estado') . '%');
+        }
+
+        $resultados = $query->paginate(10);
+
+        return response()->json($resultados);
+    }
+
     /**
      * Valida los datos de la tienda antes de almacenarlos en la base de datos.
      */
@@ -159,6 +190,8 @@ public function put(Request $request, $id)
             'direccion' => 'required|string',
             'telefono' => 'required|string|max:20',
             'capacidad' => 'required|integer|min:0',
+            'estado' => 'required|string', // Reglas de validación para el campo estado
+            'imagen' => 'required|string', // Reglas de validación para el campo imagen
         ];
 
         $messages = [
@@ -169,6 +202,8 @@ public function put(Request $request, $id)
             'capacidad.required' => 'La capacidad es obligatoria.',
             'capacidad.integer' => 'La capacidad debe ser un número entero.',
             'capacidad.min' => 'La capacidad debe ser como mínimo :min.',
+            'estado.required' => 'El estado es obligatorio.', // Mensaje de validación para el campo estado
+            'imagen.required' => 'La imagen es obligatoria.', // Mensaje de validación para el campo imagen
         ];
 
         $validator = \Validator::make($request->all(), $rules, $messages);
@@ -178,7 +213,6 @@ public function put(Request $request, $id)
             $errorMessage = implode(', ', $errors);
             throw new \Exception($errorMessage);
         }
-    }
 
-    
+    }
 }

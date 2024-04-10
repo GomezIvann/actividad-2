@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Servicio;
+use App\Models\Empleado;
 use App\Libs\ResultResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -16,7 +17,7 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        $servicios = Servicio::all();
+        $servicios = Servicio::paginate(10);
         $resultResponse = new ResultResponse();
         $resultResponse->setData($servicios);
         $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
@@ -37,7 +38,6 @@ class ServicioController extends Controller
         try {
             $nuevoServicio = new Servicio([
                 'descripcion' => $request->input('descripcion'),
-                'puntos' => $request->input('puntos'),
                 'nombre' => $request->input('nombre'),
                 'precio' => $request->input('precio'),
             ]);
@@ -85,7 +85,6 @@ class ServicioController extends Controller
         try {
             $servicio = Servicio::findOrFail($id);
             $servicio->descripcion = $request->get('descripcion');
-            $servicio->puntos = $request->get('puntos');
             $servicio->nombre = $request->get('nombre');
             $servicio->precio = $request->get('precio');
     
@@ -110,7 +109,6 @@ class ServicioController extends Controller
             $servicio = Servicio::where('codigo', $id)->firstOrFail();
 
             $servicio->descripcion = $request->input('descripcion', $servicio->descripcion);
-            $servicio->puntos = $request->input('puntos', $servicio->puntos);
             $servicio->nombre = $request->input('nombre', $servicio->nombre);
             $servicio->precio = $request->input('precio', $servicio->precio);
 
@@ -157,16 +155,12 @@ class ServicioController extends Controller
     {
         $rules = [
             'descripcion' => 'required|string',
-            'puntos' => 'required|integer|min:0',
             'nombre' => 'required|string',
             'precio' => 'required|numeric|min:0',
         ];
 
         $messages = [
             'descripcion.required' => 'La descripción es obligatoria.',
-            'puntos.required' => 'Los puntos son obligatorios.',
-            'puntos.integer' => 'Los puntos deben ser un número entero.',
-            'puntos.min' => 'Los puntos deben ser como mínimo :min.',
             'nombre.required' => 'El nombre es obligatorio.',
             'precio.required' => 'El precio es obligatorio.',
             'precio.numeric' => 'El precio debe ser un valor numérico.',
@@ -199,6 +193,86 @@ class ServicioController extends Controller
         } catch (\Exception $e) {
             $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
             $resultResponse->setMessage('Error al eliminar el empleado que presta el servicio: ' . $e->getMessage());
+        }
+
+        return response()->json($resultResponse);
+    }
+
+        /**
+     * Listar los empleados de un servicio.
+     */
+    public function listarEmpleadosDeServicio($servicioId)
+    {
+        $resultResponse = new ResultResponse();
+
+        try {
+            // Buscar el servicio por su ID
+            $servicio = Servicio::findOrFail($servicioId);
+
+            // Obtener los empleados asociados al servicio
+            $empleados = $servicio->empleados;
+
+            // Establecer los datos de respuesta
+            $resultResponse->setData($empleados);
+            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+            $resultResponse->setMessage('Empleados asociados al servicio obtenidos correctamente');
+        } catch (\Exception $e) {
+            // Manejar errores
+            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
+            $resultResponse->setMessage('Error al obtener los empleados asociados al servicio: ' . $e->getMessage());
+        }
+
+        // Devolver respuesta JSON
+        return response()->json($resultResponse);
+    }
+
+    /**
+     * Agrega un empleado al servicio especificado.
+     */
+    public function agregarEmpleado(Request $request, $servicioId, $empleadoId)
+    {
+        $resultResponse = new ResultResponse();
+
+        try {
+            // Buscar el servicio
+            $servicio = Servicio::findOrFail($servicioId);
+
+            // Verificar si el empleado ya está asociado al servicio
+            if ($servicio->empleados()->where('id', $empleadoId)->exists()) {
+                throw new \Exception('El empleado ya está asociado a este servicio.');
+            }
+
+            // Buscar el empleado
+            $empleado = Empleado::findOrFail($empleadoId);
+
+            // Asociar el empleado al servicio
+            $servicio->empleados()->attach($empleadoId);
+
+            $resultResponse->setData($servicio);
+            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+            $resultResponse->setMessage('Empleado agregado al servicio correctamente.');
+        } catch (\Exception $e) {
+            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
+            $resultResponse->setMessage('Error al agregar el empleado al servicio: ' . $e->getMessage());
+        }
+
+        return response()->json($resultResponse);
+    }
+
+    public function citasDelServicio($servicioId)
+    {
+        $resultResponse = new ResultResponse();
+
+        try {
+            $servicio = Servicio::findOrFail($servicioId);
+            $citasDelServicio = $servicio->citas()->get();
+            
+            $resultResponse->setData($citasDelServicio);
+            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+        } catch (\Exception $e) {
+            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
         }
 
         return response()->json($resultResponse);

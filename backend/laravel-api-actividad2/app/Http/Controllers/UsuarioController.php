@@ -14,7 +14,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::all();
+        $usuarios = Usuario::paginate(10);
         $resultResponse = new ResultResponse();
         $resultResponse->setData($usuarios);
         $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);

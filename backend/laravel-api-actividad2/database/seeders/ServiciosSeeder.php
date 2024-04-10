@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -10,40 +9,29 @@ class ServiciosSeeder extends Seeder
 {
     public function run()
     {
-        // Crear 5 servicios con datos distintos
+        // Crear los servicios con los datos proporcionados
         DB::table('servicios')->insert([
-            'descripcion' => 'Corte de pelo',
-            'puntos' => 10,
-            'nombre' => 'Corte de pelo estándar',
-            'precio' => 15.00,
+            'nombre' => 'Corte de cabello',
+            'descripcion' => 'Nos ajustamos a tus necesidades y estilo personal para ofrecer un servicio exclusivo acorde a lo que buscas. Te asesoramos  teniendo en cuenta tus gustos y las tendencias actuales.',
+            'precio' => 12,
         ]);
 
         DB::table('servicios')->insert([
-            'descripcion' => 'Tinte de cabello',
-            'puntos' => 15,
-            'nombre' => 'Tinte de cabello completo',
-            'precio' => 30.00,
+            'nombre' => 'Afeitado',
+            'descripcion' => 'Sácale el mayor partido a tu barba. Con nuestros diseños pretendemos arreglar tu barba delimitando los contornos a través de un afeitado tradicional, además de recomendarte su correcto mantenimiento en casa.',
+            'precio' => 6,
         ]);
 
         DB::table('servicios')->insert([
-            'descripcion' => 'Manicura',
-            'puntos' => 5,
-            'nombre' => 'Manicura básica',
-            'precio' => 20.00,
+            'nombre' => 'Técnicas',
+            'descripcion' => 'Aplicamos nuestras técnicas de corte para todas las edades, gustos y estilos. Realizamos nuestro afeitado tradicional a la navaja con toalla caliente y fría, trabajos de mechas y color, matizado de canas según el color de tu barba, y muchos más.',
+            'precio' => 15,
         ]);
 
         DB::table('servicios')->insert([
-            'descripcion' => 'Depilación',
-            'puntos' => 8,
-            'nombre' => 'Depilación de piernas',
-            'precio' => 25.00,
-        ]);
-
-        DB::table('servicios')->insert([
-            'descripcion' => 'Maquillaje',
-            'puntos' => 12,
-            'nombre' => 'Maquillaje profesional',
-            'precio' => 40.00,
+            'nombre' => 'Tratamientos',
+            'descripcion' => 'Los mejores cuidados para un increíble acabado. Una amplia gama de tratamientos para el cabello, barba y piel.',
+            'precio' => 10,
         ]);
     }
 }

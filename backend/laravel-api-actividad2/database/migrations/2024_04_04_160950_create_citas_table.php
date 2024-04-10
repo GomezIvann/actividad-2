@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_empleado');
             $table->unsignedBigInteger('id_tienda');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('id_usuario')
                 ->references('id')

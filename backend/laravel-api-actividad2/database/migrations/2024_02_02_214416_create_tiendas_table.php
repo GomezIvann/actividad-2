@@ -17,7 +17,10 @@ return new class extends Migration
             $table->string('direccion');
             $table->string('telefono');
             $table->integer('capacidad');
+            $table->string('estado');
+            $table->string('imagen');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

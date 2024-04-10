@@ -16,38 +16,39 @@ class TiendasSeeder extends Seeder
     {
         // Crear 5 tiendas con datos distintos
         DB::table('tienda')->insert([
-            'horario' => 'Lunes a Sábado de 10:00 a 20:00',
-            'direccion' => 'Calle Principal 123',
-            'telefono' => '+123456789',
-            'capacidad' => 10,
+            'horario' => '10:00 - 22:00',
+            'direccion' => 'Calle Málaga, 24, Valencia',
+            'telefono' => '123456789',
+            'capacidad' => 50,
+            'estado' => 'abierta',
+            'imagen' => 'https://i.ibb.co/Rh5vt4z/tienda-1.webp',
         ]);
 
         DB::table('tienda')->insert([
-            'horario' => 'Lunes a Sábado de 10:00 a 20:00',
-            'direccion' => 'Avenida Central 456',
-            'telefono' => '+987654321',
-            'capacidad' => 5,
+            'horario' => '9:00 - 20:00',
+            'direccion' => 'Calle Colón, 3, Valencia',
+            'telefono' => '123456789',
+            'capacidad' => 50,
+            'estado' => 'abierta',
+            'imagen' => 'https://i.ibb.co/W5TDtWg/tienda-2.jpg',
         ]);
 
         DB::table('tienda')->insert([
-            'horario' => 'Lunes a Viernes de 9:00 a 16:00',
-            'direccion' => 'Calle Secundaria 789',
-            'telefono' => '+555555555',
-            'capacidad' => 4,
+            'horario' => '8:00 - 20:00',
+            'direccion' => 'Calle General Elio, 42, Valencia',
+            'telefono' => '123456789',
+            'capacidad' => 50,
+            'estado' => 'abierta',
+            'imagen' => 'https://i.ibb.co/L0Dgs19/tienda-3.jpg',
         ]);
 
         DB::table('tienda')->insert([
-            'horario' => 'Lunes a Viernes de 9:00 a 16:00',
-            'direccion' => 'Avenida Principal 987',
-            'telefono' => '+111111111',
-            'capacidad' => 12,
-        ]);
-
-        DB::table('tienda')->insert([
-            'horario' => 'Lunes a Viernes de 9:00 a 16:00',
-            'direccion' => 'Calle Alternativa 321',
-            'telefono' => '+222222222',
-            'capacidad' => 3,
+            'horario' => '9:00 - 20:00',
+            'direccion' => 'Calle San Vicente, 12, Valencia',
+            'telefono' => '123456789',
+            'capacidad' => 50,
+            'estado' => 'abierta',
+            'imagen' => 'https://i.ibb.co/qC86vJG/tienda-4.webp',
         ]);
     }
 }
