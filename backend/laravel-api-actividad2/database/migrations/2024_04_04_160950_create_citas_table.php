@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->date('fecha');
             $table->time('hora');
-            $table->string('valoracion', 1400)->nullable();
             $table->unsignedBigInteger('id_usuario');
             $table->unsignedBigInteger('id_empleado');
             $table->unsignedBigInteger('id_tienda');

@@ -7,27 +7,32 @@ use Illuminate\Support\Facades\DB;
 
 class CitasSeeder extends Seeder
 {
-  public function run()
-  {
-    DB::table('cita')->insert([
-      'fecha' => '2024-04-05',
-      'hora' => '10:00:00',
-      'valoracion' => 'Buena atención.',
-      'id_usuario' => 1,
-      'id_empleado' => 1,
-      'id_tienda' => 1,
-      'created_at' => now(),
-      'updated_at' => now(),
-    ]);
-    DB::table('cita')->insert([
-      'fecha' => '2024-04-06',
-      'hora' => '14:30:00',
-      'valoracion' => 'Excelente servicio.',
-      'id_usuario' => 2,
-      'id_empleado' => 1,
-      'id_tienda' => 1,
-      'created_at' => now(),
-      'updated_at' => now(),
-    ]);
-  }
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        // Crear un par de citas de ejemplo
+        DB::table('cita')->insert([
+            'fecha' => '2024-04-05',
+            'hora' => '10:00:00',
+            'id_usuario' => 1, // ID del usuario asociado
+            'id_empleado' => 1, // ID del empleado asociado
+            'id_tienda' => 1, // ID de la tienda asociada
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('cita')->insert([
+            'fecha' => '2024-04-06',
+            'hora' => '14:30:00',
+            'id_usuario' => 2, // ID del usuario asociado
+            'id_empleado' => 1, // ID del empleado asociado
+            'id_tienda' => 1, // ID de la tienda asociada
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
 }
