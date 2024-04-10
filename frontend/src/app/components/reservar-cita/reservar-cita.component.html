@@ -14,6 +14,7 @@
     class="container pb-5"
     [formGroup]="reservarCitaForm"
     (ngSubmit)="reservarCita()"
+    #rescitForm="ngForm"
   >
     <mat-stepper formArrayName="formArray" linear>
       <mat-step
@@ -21,7 +22,7 @@
         [stepControl]="formArray.get([0])"
         label="Información personal"
       >
-        <div class="row mt-5 mb-4">
+        <div class="row mt-5 mb-5">
           <div class="col">
             <label for="nombre" class="form-label">Nombre</label>
             <input
@@ -32,12 +33,14 @@
               formControlName="nombre"
               required
             />
-            <span
-              *ngIf="formArray.get([0]).get('nombre').errors?.required"
-              class="text-danger"
+            <div
+              *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+              style="position: absolute"
             >
-              El nombre es obligatorio.
-            </span>
+              <div *ngIf="nombre.errors?.required" class="text-danger">
+                El nombre es obligatorio.
+              </div>
+            </div>
           </div>
           <div class="col">
             <label for="apellidos" class="form-label">Apellidos</label>
@@ -49,18 +52,19 @@
               formControlName="apellidos"
               required
             />
-            <span
-              *ngIf="formArray.get([0]).get('apellidos').errors?.required"
-              class="text-danger"
+            <div
+              *ngIf="
+                apellidos.invalid && (apellidos.dirty || apellidos.touched)
+              "
+              style="position: absolute"
             >
-              Los apellidos son obligatorios.
-            </span>
-            <span
-              *ngIf="formArray.get([0]).get('apellidos').errors?.minlength"
-              class="text-danger"
-            >
-              Los apellidos tienen una longitud mínima de 8 caracteres.
-            </span>
+              <div *ngIf="apellidos.errors?.required" class="text-danger">
+                Los apellidos son obligatorios.
+              </div>
+              <div *ngIf="apellidos.errors?.minlength" class="text-danger">
+                Los apellidos tienen una longitud mínima de 8 caracteres.
+              </div>
+            </div>
           </div>
         </div>
         <div class="row mb-5">
@@ -75,12 +79,17 @@
               placeholder="tucorreo@ejemplo.com"
               required
             />
-            <span
-              *ngIf="formArray.get([0]).get('email').errors?.email"
-              class="text-danger"
+            <div
+              *ngIf="email.invalid && (email.dirty || email.touched)"
+              style="position: absolute"
             >
-              El correo electrónico introducido no es válido.
-            </span>
+              <div *ngIf="email.errors?.required" class="text-danger">
+                El correo electrónico es obligatorio.
+              </div>
+              <div *ngIf="email.errors?.email" class="text-danger">
+                El correo electrónico introducido no es válido.
+              </div>
+            </div>
           </div>
           <div class="col">
             <label for="telefono" class="form-label">
@@ -97,23 +106,27 @@
                 formControlName="telefono"
                 placeholder="123456789"
               />
-              <span
-                *ngIf="formArray.get([0]).get('telefono').errors?.minlength"
-                class="text-danger"
-              >
+            </div>
+            <div
+              *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)"
+              style="position: absolute"
+            >
+              <div *ngIf="telefono.errors?.minlength" class="text-danger">
                 De indicarlo, el teléfono ha de tener una longitud de 9 dígitos.
-              </span>
-              <span
-                *ngIf="formArray.get([0]).get('telefono').errors?.number"
-                class="text-danger"
-              >
+              </div>
+              <div *ngIf="telefono.errors?.pattern" class="text-danger">
                 De indicarlo, por favor, introduce solo números.
-              </span>
+              </div>
             </div>
           </div>
         </div>
-        <div class="text-center">
-          <button class="btn btn-primary" matStepperNext type="button">
+        <div class="text-center pt-4">
+          <button
+            class="btn btn-primary"
+            matStepperNext
+            [disabled]="formArray.get([0]).invalid"
+            type="button"
+          >
             Siguiente
           </button>
         </div>
@@ -121,7 +134,7 @@
       <mat-step
         formGroupName="1"
         [stepControl]="formArray.get([1])"
-        label="Servicio y empleado"
+        label="Servicio, fecha y hora"
       >
         <div class="row my-5">
           <div class="col">
@@ -131,46 +144,26 @@
               id="servicio"
               name="servicio"
               required
+              multiple
+              size="8"
               formControlName="servicio"
             >
-              <option value="" disabled selected>Selecciona un servicio</option>
+              <option value="" disabled selected>
+                Selecciona uno o varios servicios
+              </option>
               <option *ngFor="let servicio of servicios" [value]="servicio.id">
                 {{ servicio.nombre }}
               </option>
             </select>
-          </div>
-          <div class="col">
-            <label for="empleado" class="form-label">Empleado</label>
-            <select
-              class="form-select"
-              id="empleado"
-              name="empleado"
-              formControlName="empleado"
-              required
+            <div
+              *ngIf="servicio.invalid && (servicio.dirty || servicio.touched)"
+              style="position: absolute"
             >
-              <option value="" disabled selected>Selecciona un empleado</option>
-            </select>
+              <div *ngIf="servicio.errors?.required" class="text-danger">
+                Debes seleccionar al menos un servicio.
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="d-flex justify-content-center gap-2">
-          <button
-            class="btn btn-outline-primary"
-            matStepperPrevious
-            type="button"
-          >
-            Anterior
-          </button>
-          <button class="btn btn-primary" matStepperNext type="button">
-            Siguiente
-          </button>
-        </div>
-      </mat-step>
-      <mat-step
-        formGroupName="2"
-        [stepControl]="formArray.get([2])"
-        label="Fecha, tienda y hora"
-      >
-        <div class="row mt-5 mb-4">
           <div class="col">
             <label for="fecha" class="form-label">Fecha</label>
             <input
@@ -181,20 +174,15 @@
               formControlName="fecha"
               required
             />
+            <div
+              *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)"
+              style="position: absolute"
+            >
+              <div *ngIf="fecha.errors?.required" class="text-danger">
+                Debes seleccionar una fecha.
+              </div>
+            </div>
           </div>
-          <div class="col">
-            <label for="tienda" class="form-label">Tienda</label>
-            <select class="form-select" id="tienda" name="tienda" required>
-              <option value="" disabled selected>
-                Selecciona una localización
-              </option>
-              <option *ngFor="let tienda of tiendas" [value]="tienda.id">
-                {{ tienda.direccion }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="row mb-5">
           <div class="col">
             <label for="horario" class="form-label">Horario</label>
             <select
@@ -214,9 +202,17 @@
               <option value="18:00">18:00</option>
               <option value="19:00">19:00</option>
             </select>
+            <div
+              *ngIf="horario.invalid && (horario.dirty || horario.touched)"
+              style="position: absolute"
+            >
+              <div *ngIf="horario.errors?.required" class="text-danger">
+                Debes seleccionar una hora.
+              </div>
+            </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center gap-2">
+        <div class="pt-4 d-flex justify-content-center gap-2">
           <button
             class="btn btn-outline-primary"
             matStepperPrevious
@@ -224,7 +220,74 @@
           >
             Anterior
           </button>
-          <button type="submit" class="btn btn-primary">Reservar</button>
+          <button
+            class="btn btn-primary"
+            matStepperNext
+            [disabled]="formArray.get([1]).invalid"
+            type="button"
+          >
+            Siguiente
+          </button>
+        </div>
+      </mat-step>
+      <mat-step
+        formGroupName="2"
+        [stepControl]="formArray.get([2])"
+        label="Empleado y tienda"
+      >
+        <div class="row mt-5 mb-5">
+          <div class="col">
+            <label for="empleado" class="form-label">
+              Empleado
+              <span class="text-muted">(opcional)</span>
+            </label>
+            <select
+              class="form-select"
+              id="empleado"
+              name="empleado"
+              formControlName="empleado"
+            >
+              <option value="" disabled selected>Selecciona un empleado</option>
+              <option *ngFor="let empleado of empleados" [value]="empleado.id">
+                {{ empleado.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="tienda" class="form-label">
+              Tienda
+              <span class="text-muted">(opcional)</span>
+            </label>
+            <select
+              class="form-select"
+              id="tienda"
+              name="tienda"
+              formControlName="tienda"
+            >
+              <option value="" disabled selected>
+                Selecciona una localización
+              </option>
+              <option *ngFor="let tienda of tiendas" [value]="tienda.id">
+                {{ tienda.direccion }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="pt-4 d-flex justify-content-center gap-2">
+          <button
+            class="btn btn-outline-primary"
+            matStepperPrevious
+            type="button"
+          >
+            Anterior
+          </button>
+          <button
+            [disabled]="reservarCitaForm.invalid"
+            type="submit"
+            class="btn btn-primary"
+          >
+            Reservar
+          </button>
         </div>
       </mat-step>
     </mat-stepper>

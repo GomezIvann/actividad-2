@@ -6,6 +6,9 @@ import { DetallesTiendaComponent } from './components/detalles-tienda/detalles-t
 import { ServiciosComponent } from './components/servicios/servicios.component';
 import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.component';
 import { EmpleadosComponent } from './components/empleados/empleados.component';
+import { CitaConfirmadaComponent } from './components/cita-confirmada/cita-confirmada.component';
+import { authGuard } from './guards/auth.guard';
+import { DetallesEmpleadoComponent } from './components/detalles-empleado/detalles-empleado.component';
 
 export const routes: Routes = [
   {
@@ -39,6 +42,11 @@ export const routes: Routes = [
     title: 'Detalles de la tienda',
   },
   {
+    path: 'detalles-empleado/:id',
+    component: DetallesEmpleadoComponent,
+    title: 'Detalles del empleado',
+  },
+  {
     path: 'reservar-cita',
     component: ReservarCitaComponent,
     title: 'Reserva tu cita',
@@ -47,6 +55,12 @@ export const routes: Routes = [
     path: 'empleados',
     component: EmpleadosComponent,
     title: 'Empleados',
+  },
+  {
+    path: 'cita-confirmada',
+    component: CitaConfirmadaComponent,
+    title: 'Cita confirmada',
+    canActivate: [authGuard],
   },
   {
     path: '**',

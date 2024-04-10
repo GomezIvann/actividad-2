@@ -8,7 +8,9 @@ import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { NumberValidator } from '../../common/NumberValidator';
+import { EmpleadoService } from '../../services/empleado.service';
+import { Empleado } from '../../interfaces/empleado';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reservar-cita',
@@ -25,6 +27,7 @@ import { NumberValidator } from '../../common/NumberValidator';
 })
 export class ReservarCitaComponent {
   servicios: Servicio[] = [];
+  empleados: Empleado[] = [];
   tiendas: Tienda[] = [];
 
   reservarCitaForm = this._formBuilder.group({
@@ -32,52 +35,102 @@ export class ReservarCitaComponent {
       this._formBuilder.group({
         nombre: ['', Validators.required],
         apellidos: ['', [Validators.required, Validators.minLength(8)]],
-        email: ['', Validators.email],
+        email: ['', [Validators.required, Validators.email]],
         telefono: [
           '',
-          [Validators.minLength(9), Validators.maxLength(9), NumberValidator()],
+          [
+            Validators.minLength(9),
+            Validators.maxLength(9),
+            Validators.pattern(/^[0-9]+$/),
+          ],
         ],
       }),
       this._formBuilder.group({
         servicio: ['', Validators.required],
-        empleado: [{ value: '', disabled: true }, Validators.required],
+        fecha: ['', Validators.required],
+        horario: [{ value: '', disabled: true }, Validators.required],
       }),
       this._formBuilder.group({
-        fecha: ['', Validators.required],
-        tienda: ['', Validators.required],
-        horario: [{ value: '', disabled: true }, Validators.required],
+        empleado: [''],
+        tienda: [''],
       }),
     ]),
   });
 
   constructor(
     private _servicioServicio: ServicioService,
+    private _empleadoServicio: EmpleadoService,
     private _tiendaServicio: TiendaService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
     this._servicioServicio.obtenerServicios().subscribe((response) => {
-      this.servicios = response.data;
+      this.servicios = response.data.data;
+    });
+    this._empleadoServicio.obtenerEmpleados().subscribe((response) => {
+      this.empleados = response.data.data;
     });
     this._tiendaServicio.obtenerTiendas().subscribe((response) => {
-      this.tiendas = response.data;
+      this.tiendas = response.data.data;
     });
 
-    this.formArray
-      .at(1)
-      .get('servicio')
-      .valueChanges.subscribe(() => {
-        if (this.formArray.at(1).get('servicio').value)
-          this.formArray.at(1).get('empleado').enable();
-      });
+    this.fecha.valueChanges.subscribe(() => {
+      if (this.formArray.at(1).get('fecha').value)
+        this.formArray.at(1).get('horario').enable();
+    });
+    this.servicio.valueChanges.subscribe(() => {
+      if (this.formArray.at(1).get('servicio').value)
+        this.formArray.at(1).get('empleado').enable();
+    });
   }
 
   get formArray() {
     return this.reservarCitaForm.get('formArray') as any;
   }
 
+  get nombre() {
+    return this.formArray.at(0).get('nombre');
+  }
+
+  get apellidos() {
+    return this.formArray.at(0).get('apellidos');
+  }
+
+  get email() {
+    return this.formArray.at(0).get('email');
+  }
+
+  get telefono() {
+    return this.formArray.at(0).get('telefono');
+  }
+
+  get servicio() {
+    return this.formArray.at(1).get('servicio');
+  }
+
+  get fecha() {
+    return this.formArray.at(1).get('fecha');
+  }
+
+  get horario() {
+    return this.formArray.at(1).get('horario');
+  }
+
+  get empleado() {
+    return this.formArray.at(2).get('empleado');
+  }
+
+  get tienda() {
+    return this.formArray.at(2).get('tienda');
+  }
+
   reservarCita(): void {
-    console.warn(this.reservarCitaForm.value);
+    let text = 'Vas a reservar la cita, ¿estás seguro?';
+    if (confirm(text) == true) {
+      // console.warn(this.reservarCitaForm.value);
+      this._router.navigate(['/cita-confirmada']);
+    }
   }
 }

@@ -18,7 +18,7 @@ export class TiendasComponent {
 
   ngOnInit(): void {
     this._servicioTienda.obtenerTiendas().subscribe((response) => {
-      this.tiendas = response.data;
+      this.tiendas = response.data.data;
     });
   }
 }

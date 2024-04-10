@@ -7,24 +7,15 @@ use App\Models\Ofrece;
 
 class OfreceSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-     
-        Ofrece::create([
-            'codigo_servicio' => 1,
-            'id_cita' => 1,
-        ]);
-
-        Ofrece::create([
-            'codigo_servicio' => 2,
-            'id_cita' => 2,
-        ]);
-
-        
-    }
+  public function run()
+  {
+    Ofrece::create([
+      'codigo_servicio' => 1,
+      'id_cita' => 1,
+    ]);
+    Ofrece::create([
+      'codigo_servicio' => 2,
+      'id_cita' => 2,
+    ]);
+  }
 }
