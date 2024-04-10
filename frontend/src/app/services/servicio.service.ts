@@ -3,7 +3,7 @@ import { Servicio } from '../interfaces/servicio';
 import { API_BASE_URL } from '../common/constantes-api';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RespuestaApi } from '../common/respuesta-api';
+import { RespuestaAPI, RespuestaAPIPaginada } from '../common/respuestas-api';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +13,7 @@ export class ServicioService {
 
   constructor(private http: HttpClient) {}
 
-  obtenerServicios(): Observable<RespuestaApi<Servicio[]>> {
-    return this.http.get<RespuestaApi<Servicio[]>>(this.url);
-  }
-  obtenerServicioPorId(id: number): Observable<RespuestaApi<Servicio>> {
-    return this.http.get<RespuestaApi<Servicio>>(`${this.url}/${id}`);
+  obtenerServicios(): Observable<RespuestaAPIPaginada<Servicio[]>> {
+    return this.http.get<RespuestaAPIPaginada<Servicio[]>>(this.url);
   }
 }

@@ -8,21 +8,31 @@ use App\Models\Presta;
 
 class PrestaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run()
-    {
-        // Crear algunos registros de ejemplo para la tabla Presta
-        Presta::create([
-            'codigo_servicio' => 1,
-            'id_empleado' => 1,
-        ]);
-
-        Presta::create([
-            'codigo_servicio' => 2,
-            'id_empleado' => 1,
-        ]);
-
-    }
+  public function run()
+  {
+    Presta::create([
+      'codigo_servicio' => 1,
+      'id_empleado' => 1,
+    ]);
+    Presta::create([
+      'codigo_servicio' => 2,
+      'id_empleado' => 1,
+    ]);
+    Presta::create([
+      'codigo_servicio' => 1,
+      'id_empleado' => 2,
+    ]);
+    Presta::create([
+      'codigo_servicio' => 1,
+      'id_empleado' => 3,
+    ]);
+    Presta::create([
+      'codigo_servicio' => 3,
+      'id_empleado' => 3,
+    ]);
+    Presta::create([
+      'codigo_servicio' => 4,
+      'id_empleado' => 3,
+    ]);
+  }
 }

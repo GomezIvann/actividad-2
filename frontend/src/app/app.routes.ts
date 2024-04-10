@@ -8,6 +8,7 @@ import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.
 import { EmpleadosComponent } from './components/empleados/empleados.component';
 import { CitaConfirmadaComponent } from './components/cita-confirmada/cita-confirmada.component';
 import { authGuard } from './guards/auth.guard';
+import { DetallesEmpleadoComponent } from './components/detalles-empleado/detalles-empleado.component';
 
 export const routes: Routes = [
   {
@@ -39,6 +40,11 @@ export const routes: Routes = [
     path: 'detalles-tienda/:id',
     component: DetallesTiendaComponent,
     title: 'Detalles de la tienda',
+  },
+  {
+    path: 'detalles-empleado/:id',
+    component: DetallesEmpleadoComponent,
+    title: 'Detalles del empleado',
   },
   {
     path: 'reservar-cita',

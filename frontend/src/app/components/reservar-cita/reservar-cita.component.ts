@@ -67,13 +67,13 @@ export class ReservarCitaComponent {
 
   ngOnInit(): void {
     this._servicioServicio.obtenerServicios().subscribe((response) => {
-      this.servicios = response.data;
+      this.servicios = response.data.data;
     });
     this._empleadoServicio.obtenerEmpleados().subscribe((response) => {
-      this.empleados = response.data;
+      this.empleados = response.data.data;
     });
     this._tiendaServicio.obtenerTiendas().subscribe((response) => {
-      this.tiendas = response.data;
+      this.tiendas = response.data.data;
     });
 
     this.fecha.valueChanges.subscribe(() => {

@@ -19,7 +19,7 @@ export class ServiciosComponent {
 
   ngOnInit(): void {
     this._servicioServicio.obtenerServicios().subscribe((response) => {
-      this.servicios = response.data;
+      this.servicios = response.data.data;
     });
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { RespuestaApi } from '../common/respuesta-api';
+import { RespuestaAPI, RespuestaAPIPaginada } from '../common/respuestas-api';
 import { API_BASE_URL } from '../common/constantes-api';
 import { Empleado } from '../interfaces/empleado';
 
@@ -11,41 +11,14 @@ import { Empleado } from '../interfaces/empleado';
 export class EmpleadoService {
   url = `${API_BASE_URL}empleados`;
 
-  mockEmpleados: Empleado[] = [
-    {
-      id: 1,
-      nombre: 'Juan',
-      apellidos: 'Perez Perez',
-      imagen: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 2,
-      nombre: 'Pedro',
-      apellidos: 'Gomez Gomez',
-      imagen: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 3,
-      nombre: 'Luis',
-      apellidos: 'Gonzalez Gonzalez',
-      imagen: 'https://via.placeholder.com/150',
-    },
-  ];
+  mockEmpleados: Empleado[] = [];
 
   constructor(private http: HttpClient) {}
 
-  obtenerEmpleados(): Observable<RespuestaApi<Empleado[]>> {
-    // return this.http.get<RespuestaApi<Empleado[]>>(this.url);
-    return of({
-      status: 'success',
-      message: 'Empleados obtenidos correctamente',
-      data: this.mockEmpleados,
-    });
+  obtenerEmpleados(): Observable<RespuestaAPIPaginada<Empleado[]>> {
+    return this.http.get<RespuestaAPIPaginada<Empleado[]>>(this.url);
   }
-  obtenerEmpleadoPorId(id: number): Observable<RespuestaApi<Empleado>> {
-    return this.http.get<RespuestaApi<Empleado>>(`${this.url}/${id}`);
+  obtenerEmpleadoPorId(id: number): Observable<RespuestaAPI<Empleado>> {
+    return this.http.get<RespuestaAPI<Empleado>>(`${this.url}/${id}`);
   }
-  // obtenerEmpleadosPorServicio(servicioId: number): Observable<RespuestaApi<Empleado[]>> {
-
-  // }
 }
