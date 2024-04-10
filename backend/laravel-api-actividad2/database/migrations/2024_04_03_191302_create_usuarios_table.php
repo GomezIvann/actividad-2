@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('contraseña', 255);
             $table->bigInteger('telefono');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

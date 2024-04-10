@@ -14,7 +14,7 @@ class PrestaController extends Controller
      */
     public function index()
     {
-        $prestas = Presta::all();
+        $prestas = Presta::paginate(10);
         $resultResponse = new ResultResponse();
         $resultResponse->setData($prestas);
         $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);

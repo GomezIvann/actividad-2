@@ -18,6 +18,7 @@ class CreatePrestaTable extends Migration
             $table->unsignedBigInteger('id_empleado');
             $table->primary(['codigo_servicio', 'id_empleado']);
             $table->timestamps();
+            $table->softDeletes();
             // Foreign key constraint for id_empleado
             $table->foreign('id_empleado')
                 ->references('id')

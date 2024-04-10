@@ -32,6 +32,7 @@ Route::controller(TiendaController::class)->prefix('tiendas')->group(function ()
     Route::put('/{id}', 'put');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
+    Route::get('/buscar', 'buscar');
     
 });
 
@@ -44,6 +45,10 @@ Route::controller(ServicioController::class)->prefix('servicios')->group(functio
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
     Route::delete('/{servicioId}/empleados/{empleadoId}', 'deleteEmpleadosQuePrestanServicio');
+    Route::get('/{servicioId}/empleados', 'listarEmpleadosDeServicio');
+    Route::post('/{servicioId}/empleados/{empleadoId}', 'agregarEmpleado');
+    Route::get('/{servicioId}/citas', 'citasDelServicio');
+
 });
 
 Route::controller(UsuarioController::class)->prefix('usuarios')->group(function () {
@@ -67,6 +72,7 @@ Route::controller(EmpleadoController::class)->prefix('empleados')->group(functio
     Route::delete('/{id}', 'delete');
     Route::get('/{empleado}/servicios', 'obtenerServicios');
     Route::delete('/{empleado}/servicios/{servicio}', 'eliminarServicio');
+    Route::get('/buscar', 'buscar');
     
 });
 
@@ -80,6 +86,8 @@ Route::controller(CitasController::class)->prefix('citas')->group(function () {
     Route::delete('/{id}', 'delete');
     Route::get('/{cita}/servicios', 'obtenerServiciosDeCita');
     Route::delete('/{cita}/servicios/{servicio}', 'eliminarServicioDeCita');
+    Route::post('/{citaId}/servicios/{servicioId}', 'asignarServicioACita');
+
 });
 
 Route::controller(PrestaController::class)->prefix('presta')->group(function () { 

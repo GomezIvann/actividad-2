@@ -14,7 +14,7 @@ class OfreceController extends Controller
      */
     public function index()
     {
-        $ofrece = Ofrece::all();
+        $ofrece = Ofrece::paginate(10);
         $resultResponse = new ResultResponse();
         $resultResponse->setData($ofrece);
         $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);

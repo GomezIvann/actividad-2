@@ -17,6 +17,7 @@ class CreateOfreceTable extends Migration
         $table->unsignedBigInteger('codigo_servicio');
         $table->unsignedBigInteger('id_cita');
         $table->timestamps();
+        $table->softDeletes();
         // Definir las restricciones de clave primaria
         $table->primary(['codigo_servicio', 'id_cita']);
 

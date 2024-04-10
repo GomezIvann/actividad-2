@@ -13,20 +13,15 @@ return new class extends Migration
     {
         Schema::create('empleado', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_usuario', 20);
-            $table->string('nombre_completo', 255);
-            $table->string('genero', 40)->nullable();
-            $table->string('direccion', 255);
+            $table->string('nombre', 255);
+            $table->string('apellidos', 255);
             $table->string('ciudad', 40);
             $table->string('pais', 40);
-            $table->string('correo', 40);
-            $table->string('contraseña', 40);
-            $table->integer('telefono');
-            $table->integer('salario');
-            $table->date('fecha_contratacion');
-            $table->string('numero_seguridad_social', 20);
+            $table->string('imagen');
+            $table->string('red_social');
             $table->unsignedBigInteger('id_tienda');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('id_tienda')
                 ->references('id')
