@@ -34,7 +34,6 @@ class CitasController extends Controller
             $nuevaCita = new Cita([
                 'fecha' => $request->get('fecha'),
                 'hora' => $request->get('hora'),
-                'valoracion' => $request->get('valoracion'),
                 'id_usuario' => $request->get('id_usuario'),
                 'id_empleado' => $request->get('id_empleado'),
                 'id_tienda' => $request->get('id_tienda'),
@@ -83,7 +82,6 @@ class CitasController extends Controller
 
             $cita->fecha = $request->get('fecha');
             $cita->hora = $request->get('hora');
-            $cita->valoracion = $request->get('valoracion');
             $cita->id_usuario = $request->get('id_usuario');
             $cita->id_empleado = $request->get('id_empleado');
             $cita->id_tienda = $request->get('id_tienda');
@@ -110,7 +108,6 @@ class CitasController extends Controller
 
             $cita->fecha = $request->input('fecha', $cita->fecha);
             $cita->hora = $request->input('hora', $cita->hora);
-            $cita->valoracion = $request->input('valoracion', $cita->valoracion);
             $cita->id_usuario = $request->input('id_usuario', $cita->id_usuario);
             $cita->id_empleado = $request->input('id_empleado', $cita->id_empleado);
             $cita->id_tienda = $request->input('id_tienda', $cita->id_tienda);
@@ -158,7 +155,6 @@ class CitasController extends Controller
         $rules = [
             'fecha' => 'required|date',
             'hora' => 'required|date_format:H:i',
-            'valoracion' => 'nullable|string|max:1400',
             'id_usuario' => 'required|integer',
             'id_empleado' => 'required|integer',
             'id_tienda' => 'required|integer',
@@ -169,7 +165,6 @@ class CitasController extends Controller
             'fecha.date' => 'La fecha debe ser una fecha válida.',
             'hora.required' => 'La hora es obligatoria.',
             'hora.date_format' => 'La hora debe tener el formato HH:MM.',
-            'valoracion.max' => 'La valoración no puede tener más de :max caracteres.',
             'id_usuario.required' => 'El ID del usuario es obligatorio.',
             'id_usuario.integer' => 'El ID del usuario debe ser un número entero.',
             'id_empleado.required' => 'El ID del empleado es obligatorio.',
