@@ -1,0 +1,32 @@
+<div class="py-3 py-md-5 py-xl-8 h-100">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 d-flex align-items-center justify-content-center">
+        <iframe
+          src="https://giphy.com/embed/pHZdGyFNp5sUXq4jp5"
+          width="384"
+          height="480"
+          frameBorder="0"
+          class="giphy-embed"
+          allowFullScreen
+        ></iframe>
+      </div>
+      <div class="col-md-6 d-flex align-items-center">
+        <div class="text-center d-flex flex-column gap-3">
+          <h1>Cita Confirmada</h1>
+          <p>¡Tu cita ha sido confirmada exitosamente!</p>
+          <p>
+            Te hemos enviado un correo electrónico con los detalles de tu cita.
+            Si tienes alguna duda, por favor, no dudes en contactarnos.
+          </p>
+          <div class="d-flex align-items-center justify-content-center gap-3">
+            <a [routerLink]="['/inicio']" class="btn btn-primary"
+              >Volver al inicio</a
+            >
+            <a [routerLink]="['/contacto']">Contáctanos</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

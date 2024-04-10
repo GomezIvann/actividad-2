@@ -1,1 +1,6 @@
-export interface Empleado {}
+export interface Empleado {
+  id: number;
+  nombre: string;
+  apellidos: string;
+  imagen: string;
+}
