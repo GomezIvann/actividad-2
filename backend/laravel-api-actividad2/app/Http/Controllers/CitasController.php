@@ -246,5 +246,25 @@ class CitasController extends Controller
         return response()->json($resultResponse);
     }
 
+    /**
+     * Obtiene las citas por ID de empleado.
+     */
+    public function obtenerCitasPorEmpleado($idEmpleado)
+    {
+        $resultResponse = new ResultResponse();
+
+        try {
+            $citas = Cita::where('id_empleado', $idEmpleado)->paginate(10);
+            $resultResponse->setData($citas);
+            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+        } catch (\Exception $e) {
+            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
+        }
+
+        return response()->json($resultResponse);
+    }
+
     
 }

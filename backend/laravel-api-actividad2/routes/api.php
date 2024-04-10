@@ -87,6 +87,7 @@ Route::controller(CitasController::class)->prefix('citas')->group(function () {
     Route::get('/{cita}/servicios', 'obtenerServiciosDeCita');
     Route::delete('/{cita}/servicios/{servicio}', 'eliminarServicioDeCita');
     Route::post('/{citaId}/servicios/{servicioId}', 'asignarServicioACita');
+    Route::get('/empleado/{idEmpleado}', 'obtenerCitasPorEmpleado');
 
 });
 
