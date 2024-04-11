@@ -7,6 +7,7 @@ use App\Libs\ResultResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Usuario;
 
 class CitasController extends Controller
 {
@@ -263,6 +264,33 @@ class CitasController extends Controller
             $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
         }
 
+        return response()->json($resultResponse);
+    }
+
+    public function obtenerCitasPorDniUsuario($dni)
+    {
+        $resultResponse = new ResultResponse();
+
+        try {
+            // Buscar al usuario por su DNI
+            $usuario = Usuario::where('dni', $dni)->first();
+
+            if ($usuario) {
+                // Obtener las citas asociadas al usuario encontrando su ID
+                $citas = Cita::where('id_usuario', $usuario->id)->paginate(10);
+
+                $resultResponse->setData($citas);
+                $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+                $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+            } else {
+                $resultResponse->setStatusCode(ResultResponse::ERROR_ELEMENT_NOT_FOUND_CODE);
+                $resultResponse->setMessage("No se encontró ningún usuario con el DNI proporcionado.");
+            }
+        } catch (\Exception $e) {
+            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
+        }
+        
         return response()->json($resultResponse);
     }
 

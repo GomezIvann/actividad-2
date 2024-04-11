@@ -9,14 +9,12 @@ class Usuario extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'dni';
-
     protected $table = 'usuario';
 
     protected $fillable = [
-        'nombre_usuario',
-        'nombre_completo',
-        'genero',
+        'dni',
+        'nombre',
+        'apellido',
         'direccion',
         'ciudad',
         'pais',

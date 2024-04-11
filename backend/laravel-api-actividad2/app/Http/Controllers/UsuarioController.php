@@ -34,9 +34,9 @@ class UsuarioController extends Controller
 
         try {
             $nuevoUsuario = new Usuario([
-                'nombre_usuario' => $request->input('nombre_usuario'),
-                'nombre_completo' => $request->input('nombre_completo'),
-                'genero' => $request->input('genero'),
+                'dni' => $request->input('dni'),
+                'nombre' => $request->input('nombre'),
+                'apellido' => $request->input('apellido'),
                 'direccion' => $request->input('direccion'),
                 'ciudad' => $request->input('ciudad'),
                 'pais' => $request->input('pais'),
@@ -88,15 +88,15 @@ class UsuarioController extends Controller
 
         try {
             $usuario = Usuario::findOrFail($id);
-            $usuario->nombre_usuario = $request->input('nombre_usuario');
-            $usuario->nombre_completo = $request->input('nombre_completo');
-            $usuario->genero = $request->input('genero');
-            $usuario->direccion = $request->input('direccion');
-            $usuario->ciudad = $request->input('ciudad');
-            $usuario->pais = $request->input('pais');
-            $usuario->correo = $request->input('correo');
-            $usuario->contraseña = $request->input('contraseña');
-            $usuario->telefono = $request->input('telefono');
+            $usuario->dni = $request->input('dni', $usuario->dni);
+            $usuario->nombre = $request->input('nombre', $usuario->nombre);
+            $usuario->apellido = $request->input('apellido', $usuario->apellido);
+            $usuario->direccion = $request->input('direccion', $usuario->direccion);
+            $usuario->ciudad = $request->input('ciudad', $usuario->ciudad);
+            $usuario->pais = $request->input('pais', $usuario->pais);
+            $usuario->correo = $request->input('correo', $usuario->correo);
+            $usuario->contraseña = $request->input('contraseña', $usuario->contraseña);
+            $usuario->telefono = $request->input('telefono', $usuario->telefono);
 
             $usuario->save();
 
@@ -105,7 +105,7 @@ class UsuarioController extends Controller
             $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);  
         } catch (\Exception $e) {
             $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
-            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
+            $resultResponse->setMessage($e->getMessage());
         }
 
         return response()->json($resultResponse);
@@ -118,9 +118,9 @@ class UsuarioController extends Controller
         try {
             $usuario = Usuario::findOrFail($id);
 
-            $usuario->nombre_usuario = $request->input('nombre_usuario', $usuario->nombre_usuario);
-            $usuario->nombre_completo = $request->input('nombre_completo', $usuario->nombre_completo);
-            $usuario->genero = $request->input('genero', $usuario->genero);
+            $usuario->dni = $request->input('dni', $usuario->dni);
+            $usuario->nombre = $request->input('nombre', $usuario->nombre);
+            $usuario->apellido = $request->input('apellido', $usuario->apellido);
             $usuario->direccion = $request->input('direccion', $usuario->direccion);
             $usuario->ciudad = $request->input('ciudad', $usuario->ciudad);
             $usuario->pais = $request->input('pais', $usuario->pais);
@@ -170,16 +170,17 @@ class UsuarioController extends Controller
     public function validateUsuario($request)
     {
         $rules = [
-            'nombre_usuario' => 'required|string|max:20',
-            'nombre_completo' => 'required|string|max:255',
-            'genero' => 'nullable|string|max:40',
+            'dni' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
             'direccion' => 'required|string|max:255',
-            'ciudad' => 'required|string|max:40',
-            'pais' => 'required|string|max:40',
-            'correo' => 'required|string|max:40',
-            'contraseña' => 'required|string|max:40',
+            'ciudad' => 'required|string|max:255',
+            'pais' => 'required|string|max:255',
+            'correo' => 'required|string|max:255',
+            'contraseña' => 'required|string|max:255',
             'telefono' => 'required|integer',
         ];
+
 
         $validator = Validator::make($request->all(), $rules);
 

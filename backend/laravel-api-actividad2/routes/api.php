@@ -32,7 +32,7 @@ Route::controller(TiendaController::class)->prefix('tiendas')->group(function ()
     Route::put('/{id}', 'put');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
-    Route::get('/buscar', 'buscar');
+    Route::post('/buscar', 'buscar');
     
 });
 
@@ -88,6 +88,7 @@ Route::controller(CitasController::class)->prefix('citas')->group(function () {
     Route::delete('/{cita}/servicios/{servicio}', 'eliminarServicioDeCita');
     Route::post('/{citaId}/servicios/{servicioId}', 'asignarServicioACita');
     Route::get('/empleado/{idEmpleado}', 'obtenerCitasPorEmpleado');
+    Route::get('/usuario/{dni}', 'obtenerCitasPorDniUsuario');
 
 });
 
