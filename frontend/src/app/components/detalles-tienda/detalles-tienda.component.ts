@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TiendaService } from '../../services/tienda.service';
 import { Tienda } from '../../interfaces/tienda';
-import { TitleCasePipe } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-detalles-tienda',
   standalone: true,
-  imports: [TitleCasePipe],
+  imports: [CommonModule, TitleCasePipe],
   templateUrl: './detalles-tienda.component.html',
   styleUrl: './detalles-tienda.component.css',
 })
