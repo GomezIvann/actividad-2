@@ -17,8 +17,8 @@ export class TiendasComponent {
   constructor(private _servicioTienda: TiendaService) {}
 
   ngOnInit(): void {
-    this._servicioTienda.obtenerTiendas().subscribe((response) => {
-      this.tiendas = response.data.data;
+    this._servicioTienda.obtenerTiendas().subscribe((respuesta) => {
+      this.tiendas = respuesta.data.data;
     });
   }
 }

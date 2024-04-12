@@ -17,8 +17,8 @@ export class EmpleadosComponent {
   constructor(private _servicioEmpleado: EmpleadoService) {}
 
   ngOnInit(): void {
-    this._servicioEmpleado.obtenerEmpleados().subscribe((response) => {
-      this.empleados = response.data.data;
+    this._servicioEmpleado.obtenerEmpleados().subscribe((respuesta) => {
+      this.empleados = respuesta.data.data;
     });
   }
 }

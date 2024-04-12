@@ -22,8 +22,8 @@ export class DetallesTiendaComponent {
       const tiendaId = Number(params['id']);
       this._servicioTienda
         .obtenerTiendaPorId(tiendaId)
-        .subscribe((response) => {
-          this.tienda = response.data;
+        .subscribe((respuesta) => {
+          this.tienda = respuesta.data;
         });
     });
   }

@@ -18,8 +18,8 @@ export class ServiciosComponent {
   constructor(private _servicioServicio: ServicioService) {}
 
   ngOnInit(): void {
-    this._servicioServicio.obtenerServicios().subscribe((response) => {
-      this.servicios = response.data.data;
+    this._servicioServicio.obtenerServicios().subscribe((respuesta) => {
+      this.servicios = respuesta.data.data;
     });
   }
 }

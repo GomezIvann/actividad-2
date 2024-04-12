@@ -79,28 +79,28 @@ export class ReservarCitaComponent {
   ) {}
 
   ngOnInit(): void {
-    this._servicioServicio.obtenerServicios().subscribe((response) => {
-      this.servicios = response.data.data;
+    this._servicioServicio.obtenerServicios().subscribe((respuesta) => {
+      this.servicios = respuesta.data.data;
     });
-    this._empleadoServicio.obtenerEmpleados().subscribe((response) => {
-      this.empleados = response.data.data;
+    this._empleadoServicio.obtenerEmpleados().subscribe((respuesta) => {
+      this.empleados = respuesta.data.data;
     });
-    this._tiendaServicio.obtenerTiendas().subscribe((response) => {
-      this.tiendas = response.data.data;
+    this._tiendaServicio.obtenerTiendas().subscribe((respuesta) => {
+      this.tiendas = respuesta.data.data;
     });
 
     this.dni.valueChanges.subscribe(() => {
       this._usuarioServicio
         .obtenerUsuarioPorDni(this.dni.value)
-        .subscribe((response) => {
-          if (response.data) {
-            this.nombre.setValue(response.data.nombre);
-            this.apellidos.setValue(response.data.apellidos);
-            this.email.setValue(response.data.correo);
-            this.direccion.setValue(response.data.direccion);
-            this.ciudad.setValue(response.data.ciudad);
-            this.pais.setValue(response.data.pais);
-            this.telefono.setValue(response.data.telefono);
+        .subscribe((respuesta) => {
+          if (respuesta.data) {
+            this.nombre.setValue(respuesta.data.nombre);
+            this.apellidos.setValue(respuesta.data.apellidos);
+            this.email.setValue(respuesta.data.correo);
+            this.direccion.setValue(respuesta.data.direccion);
+            this.ciudad.setValue(respuesta.data.ciudad);
+            this.pais.setValue(respuesta.data.pais);
+            this.telefono.setValue(respuesta.data.telefono);
           }
         });
     });

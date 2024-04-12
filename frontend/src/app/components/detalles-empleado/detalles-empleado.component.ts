@@ -29,13 +29,13 @@ export class DetallesEmpleadoComponent {
 
       this._servicioEmpleado
         .obtenerEmpleadoPorId(empleadoId)
-        .subscribe((response) => {
-          this.empleado = response.data;
+        .subscribe((respuesta) => {
+          this.empleado = respuesta.data;
           this._servicioTienda
             .obtenerTiendaPorId(this.empleado.id_tienda)
-            .subscribe((response) => {
-              console.log(response.data);
-              this.tienda = response.data;
+            .subscribe((respuesta) => {
+              console.log(respuesta.data);
+              this.tienda = respuesta.data;
             });
         });
     });

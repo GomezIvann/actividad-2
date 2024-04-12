@@ -28,7 +28,7 @@
           paso 2 si así lo deseas.
         </p>
         <div class="row mt-5 mb-5">
-          <div class="col-4">
+          <div class="col-5">
             <label for="dni" class="form-label">DNI</label>
             <input
               type="text"
@@ -49,13 +49,6 @@
               <div *ngIf="dni.errors?.pattern" class="text-danger">
                 El DNI introducido no es válido.
               </div>
-            </div>
-            <div
-              *ngIf="dni.valid"
-              style="position: absolute"
-              class="text-success"
-            >
-              <div>El DNI introducido es válido.</div>
             </div>
           </div>
         </div>
