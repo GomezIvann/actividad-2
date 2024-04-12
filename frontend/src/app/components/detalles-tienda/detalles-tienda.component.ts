@@ -7,7 +7,7 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 @Component({
   selector: 'app-detalles-tienda',
   standalone: true,
-  imports: [CommonModule, TitleCasePipe],
+  imports: [CommonModule],
   templateUrl: './detalles-tienda.component.html',
   styleUrl: './detalles-tienda.component.css',
 })

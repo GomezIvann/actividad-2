@@ -9,7 +9,7 @@ import { EmpleadosComponent } from './components/empleados/empleados.component';
 import { CitaConfirmadaComponent } from './components/cita-confirmada/cita-confirmada.component';
 import { authGuard } from './guards/auth.guard';
 import { DetallesEmpleadoComponent } from './components/detalles-empleado/detalles-empleado.component';
-import { ObtenerCitasComponent } from './components/obtener-citas/obtener-citas.component';
+import { ConsultarCitasComponent } from './components/consultar-citas/consultar-citas.component';
 
 export const routes: Routes = [
   {
@@ -64,9 +64,9 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'obtener-citas',
-    component: ObtenerCitasComponent,
-    title: 'Obtener citas',
+    path: 'consultar-citas',
+    component: ConsultarCitasComponent,
+    title: 'Consultar citas',
   },
   {
     path: '**',

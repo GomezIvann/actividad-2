@@ -1,8 +1,8 @@
 export interface Usuario {
+  id?: number;
   dni: string;
   nombre: string;
   apellidos: string;
-  genero?: 'Hombre' | 'Mujer' | 'Otro';
   direccion: string;
   ciudad: string;
   pais: string;

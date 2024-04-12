@@ -42,7 +42,6 @@ export class ReservarCitaComponent {
         dni: ['', [Validators.required, Validators.pattern(/^[0-9]{8}[A-Z]$/)]],
         nombre: ['', Validators.required],
         apellidos: ['', [Validators.required, Validators.minLength(8)]],
-        genero: [''],
         email: ['', [Validators.required, Validators.email]],
         telefono: [
           '',
@@ -101,7 +100,6 @@ export class ReservarCitaComponent {
             this.direccion.setValue(response.data.direccion);
             this.ciudad.setValue(response.data.ciudad);
             this.pais.setValue(response.data.pais);
-            this.genero.setValue(response.data.genero);
             this.telefono.setValue(response.data.telefono);
           }
         });
@@ -157,10 +155,6 @@ export class ReservarCitaComponent {
     return this.formArray.at(0).get('pais');
   }
 
-  get genero() {
-    return this.formArray.at(0).get('genero');
-  }
-
   get almacenarDatos() {
     return this.formArray.at(0).get('almacenarDatos');
   }
@@ -214,22 +208,22 @@ export class ReservarCitaComponent {
         dni: this.dni.value,
         nombre: this.nombre.value,
         apellidos: this.apellidos.value,
-        genero: this.genero.value,
         direccion: this.direccion.value,
         ciudad: this.ciudad.value,
         pais: this.pais.value,
         correo: this.email.value,
         telefono: this.telefono.value,
       };
-      const cita: Cita = {
-        dni_usuario: usuario.dni,
-        id_empleado: this.empleado.value,
-        id_tienda: this.tienda.value,
-        fecha: this.fecha.value,
-        hora: this.horario.value,
-      };
+      // const cita: Cita = {
+      //   id_usuario: usuario.id,
+      //   id_empleado: this.empleado.value,
+      //   id_tienda: this.tienda.value,
+      //   fecha: this.fecha.value,
+      //   hora: this.horario.value,
+      //   dni: usuario.dni,
+      // };
       this.almacenarDatos && this._usuarioServicio.registrarUsuario(usuario);
-      this._citaServicio.reservarCita(cita);
+      // this._citaServicio.reservarCita(cita);
 
       // TODO: Redirigir a la página de confirmación de cita SOLO si la petición se ha realizado correctamente
       // this._router.navigate(['/cita-confirmada']);
