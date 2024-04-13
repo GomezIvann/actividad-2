@@ -54,7 +54,6 @@ export class ReservarCitaComponent {
         direccion: ['', Validators.required],
         ciudad: ['', Validators.required],
         pais: ['', Validators.required],
-        almacenarDatos: [false],
       }),
       this._formBuilder.group({
         servicio: ['', Validators.required],
@@ -93,14 +92,19 @@ export class ReservarCitaComponent {
       this._usuarioServicio
         .obtenerUsuarioPorDni(this.dni.value)
         .subscribe((respuesta) => {
-          if (respuesta.data) {
+          if (
+            respuesta.message === 'success' &&
+            confirm(
+              'Ya has reservado previamente con nosotros, ¿deseas rellenar los campos automáticamente con la información de tu última reserva?'
+            )
+          ) {
             this.nombre.setValue(respuesta.data.nombre);
             this.apellidos.setValue(respuesta.data.apellidos);
             this.email.setValue(respuesta.data.correo);
+            this.telefono.setValue(respuesta.data.telefono);
             this.direccion.setValue(respuesta.data.direccion);
             this.ciudad.setValue(respuesta.data.ciudad);
             this.pais.setValue(respuesta.data.pais);
-            this.telefono.setValue(respuesta.data.telefono);
           }
         });
     });
@@ -153,10 +157,6 @@ export class ReservarCitaComponent {
 
   get pais() {
     return this.formArray.at(0).get('pais');
-  }
-
-  get almacenarDatos() {
-    return this.formArray.at(0).get('almacenarDatos');
   }
 
   get servicio() {
@@ -222,7 +222,7 @@ export class ReservarCitaComponent {
       //   hora: this.horario.value,
       //   dni: usuario.dni,
       // };
-      this.almacenarDatos && this._usuarioServicio.registrarUsuario(usuario);
+      this._usuarioServicio.registrarUsuario(usuario);
       // this._citaServicio.reservarCita(cita);
 
       // TODO: Redirigir a la página de confirmación de cita SOLO si la petición se ha realizado correctamente

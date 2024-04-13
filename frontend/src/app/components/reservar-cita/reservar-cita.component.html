@@ -16,19 +16,23 @@
     (ngSubmit)="reservarCita()"
     #rescitForm="ngForm"
   >
-    <mat-stepper formArrayName="formArray">
+    <mat-stepper formArrayName="formArray" linear>
       <mat-step
         formGroupName="0"
         [stepControl]="formArray.get([0])"
         label="Información personal"
       >
-        <p class="text-center text-body-secondary mt-5">
-          Si ya has reservado con nosotros, tus datos se cargarán
-          automáticamente al introducir tu DNI y podrás avanzar directamente al
-          paso 2 si así lo deseas.
-        </p>
+        <div class="row mb-5">
+          <div class="col">
+            <p class="text-center text-body-secondary mt-5">
+              Si ya has reservado con nosotros, tus datos se cargarán
+              automáticamente al introducir tu DNI y podrás avanzar directamente
+              al paso 2 si así lo deseas.
+            </p>
+          </div>
+        </div>
         <div class="row mt-5 mb-5">
-          <div class="col-5">
+          <div class="col-6">
             <label for="dni" class="form-label">DNI</label>
             <input
               type="text"
@@ -53,7 +57,7 @@
           </div>
         </div>
         <div class="row mb-5">
-          <div class="col-5">
+          <div class="col-6">
             <label for="nombre" class="form-label">Nombre</label>
             <input
               type="text"
@@ -72,7 +76,7 @@
               </div>
             </div>
           </div>
-          <div class="col-7">
+          <div class="col-6">
             <label for="apellidos" class="form-label">Apellidos</label>
             <input
               type="text"
@@ -209,19 +213,6 @@
                 El país de origen es obligatorio.
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row mb-5">
-          <div class="col form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="almacenarUsuario"
-              formControlName="almacenarUsuario"
-            />
-            <label class="form-check-label" for="flexCheckDefault">
-              ¿Deseas que se almacenen tus datos para futuras citas?
-            </label>
           </div>
         </div>
         <div class="text-center pt-4">

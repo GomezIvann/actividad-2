@@ -1,5 +1,5 @@
 export type RespuestaAPIPaginada<T> = {
-  status: string;
+  statusCode: string;
   message: string;
   data: {
     current_page: number;
@@ -8,7 +8,7 @@ export type RespuestaAPIPaginada<T> = {
 };
 
 export type RespuestaAPI<T> = {
-  status: string;
+  statusCode: string;
   message: string;
   data: T;
 };
