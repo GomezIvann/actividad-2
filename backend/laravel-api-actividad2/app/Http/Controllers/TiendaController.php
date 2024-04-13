@@ -157,27 +157,39 @@ public function put(Request $request, $id)
 
     public function buscar(Request $request)
     {
-        $query = Tienda::query();
+     
+        $resultResponse = new ResultResponse();
 
-        if ($request->has('horario')) {
-            $query->where('horario', 'like', '%' . $request->input('horario') . '%');
+        try {
+            $query = Tienda::query();
+
+            if ($request->has('horario')) {
+                $query->where('horario', 'like', '%' . $request->input('horario') . '%');
+            }
+
+            if ($request->has('direccion')) {
+                $query->where('direccion', 'like', '%' . $request->input('direccion') . '%');
+            }
+
+            if ($request->has('telefono')) {
+                $query->where('telefono', 'like', '%' . $request->input('telefono') . '%');
+            }
+
+            if ($request->has('estado')) {
+                $query->where('estado', 'like', '%' . $request->input('estado') . '%');
+            }
+
+            $resultados = $query->paginate(10);
+
+            $resultResponse->setData($resultados);
+            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+        } catch (\Exception $e) {
+            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
         }
 
-        if ($request->has('direccion')) {
-            $query->where('direccion', 'like', '%' . $request->input('direccion') . '%');
-        }
-
-        if ($request->has('telefono')) {
-            $query->where('telefono', 'like', '%' . $request->input('telefono') . '%');
-        }
-
-        if ($request->has('estado')) {
-            $query->where('estado', 'like', '%' . $request->input('estado') . '%');
-        }
-
-        $resultados = $query->paginate(10);
-
-        return response()->json($resultados);
+        return response()->json($resultResponse);
     }
 
     /**

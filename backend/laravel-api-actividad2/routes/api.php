@@ -32,7 +32,7 @@ Route::controller(TiendaController::class)->prefix('tiendas')->group(function ()
     Route::put('/{id}', 'put');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
-    Route::post('/buscar', 'buscar');
+    Route::get('/buscar', 'buscar');
     
 });
 
@@ -48,6 +48,7 @@ Route::controller(ServicioController::class)->prefix('servicios')->group(functio
     Route::get('/{servicioId}/empleados', 'listarEmpleadosDeServicio');
     Route::post('/{servicioId}/empleados/{empleadoId}', 'agregarEmpleado');
     Route::get('/{servicioId}/citas', 'citasDelServicio');
+    Route::get('/buscar', 'buscar');
 
 });
 
@@ -60,6 +61,7 @@ Route::controller(UsuarioController::class)->prefix('usuarios')->group(function 
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
     Route::get('/dni/{dni}', 'getByDni');
+    Route::get('/buscar', 'buscar');
     
 });
 
@@ -90,6 +92,7 @@ Route::controller(CitasController::class)->prefix('citas')->group(function () {
     Route::post('/{citaId}/servicios/{servicioId}', 'asignarServicioACita');
     Route::get('/empleado/{idEmpleado}', 'obtenerCitasPorEmpleado');
     Route::get('/usuario/{dni}', 'obtenerCitasPorDniUsuario');
+    Route::get('/buscar', 'buscar');
 
 });
 

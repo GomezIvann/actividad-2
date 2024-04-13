@@ -186,6 +186,42 @@ class UsuarioController extends Controller
         return response()->json($resultResponse);
     }
 
+    public function buscar(Request $request)
+    {
+        $resultResponse = new ResultResponse();
+
+        try {
+            $query = Usuario::query();
+
+            if ($request->has('dni')) {
+                $query->where('dni', 'like', '%' . $request->input('dni') . '%');
+            }
+
+            if ($request->has('nombre')) {
+                $query->where('nombre', 'like', '%' . $request->input('nombre') . '%');
+            }
+
+            if ($request->has('apellido')) {
+                $query->where('apellido', 'like', '%' . $request->input('apellido') . '%');
+            }
+
+            if ($request->has('correo')) {
+                $query->where('correo', 'like', '%' . $request->input('correo') . '%');
+            }
+
+            $resultados = $query->paginate(10);
+
+            $resultResponse->setData($resultados);
+            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+        } catch (\Exception $e) {
+            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
+        }
+
+        return response()->json($resultResponse);
+    }
+
     /**
      * Validate the user data before storing it in the database.
      */

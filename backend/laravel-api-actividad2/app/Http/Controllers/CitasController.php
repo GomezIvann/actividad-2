@@ -294,5 +294,45 @@ class CitasController extends Controller
         return response()->json($resultResponse);
     }
 
+    public function buscar(Request $request)
+    {
+        $resultResponse = new ResultResponse();
+
+        try {
+            $query = Cita::query();
+
+            if ($request->has('fecha')) {
+                $query->where('fecha', 'like', '%' . $request->input('fecha') . '%');
+            }
+
+            if ($request->has('hora')) {
+                $query->where('hora', 'like', '%' . $request->input('hora') . '%');
+            }
+
+            if ($request->has('id_usuario')) {
+                $query->where('id_usuario', $request->input('id_usuario'));
+            }
+
+            if ($request->has('id_empleado')) {
+                $query->where('id_empleado', $request->input('id_empleado'));
+            }
+
+            if ($request->has('id_tienda')) {
+                $query->where('id_tienda', $request->input('id_tienda'));
+            }
+
+            $resultados = $query->paginate(10);
+
+            $resultResponse->setData($resultados);
+            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+        } catch (\Exception $e) {
+            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
+        }
+
+        return response()->json($resultResponse);
+    }
+
     
 }

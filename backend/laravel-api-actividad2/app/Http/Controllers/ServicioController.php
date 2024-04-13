@@ -278,5 +278,37 @@ class ServicioController extends Controller
         return response()->json($resultResponse);
     }
 
+    public function buscar(Request $request)
+    {
+        $resultResponse = new ResultResponse();
+
+        try {
+            $query = Servicio::query();
+
+            if ($request->has('descripcion')) {
+                $query->where('descripcion', 'like', '%' . $request->input('descripcion') . '%');
+            }
+
+            if ($request->has('nombre')) {
+                $query->where('nombre', 'like', '%' . $request->input('nombre') . '%');
+            }
+
+            if ($request->has('precio')) {
+                $query->where('precio', 'like', '%' . $request->input('precio') . '%');
+            }
+
+            $resultados = $query->paginate(10);
+
+            $resultResponse->setData($resultados);
+            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+        } catch (\Exception $e) {
+            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
+        }
+
+        return response()->json($resultResponse);
+    }
+
 
 }
