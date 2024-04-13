@@ -33,13 +33,5 @@ class TiendasSeeder extends Seeder
       'estado' => 'abierta',
       'imagen' => 'https://i.ibb.co/L0Dgs19/tienda-3.jpg',
     ]);
-    DB::table('tienda')->insert([
-      'horario' => '09:00 - 20:00',
-      'direccion' => 'Calle San Vicente, 12, Valencia',
-      'telefono' => '123456789',
-      'capacidad' => 6,
-      'estado' => 'abierta',
-      'imagen' => 'https://i.ibb.co/qC86vJG/tienda-4.webp',
-    ]);
   }
 }
