@@ -164,6 +164,28 @@ class UsuarioController extends Controller
         return response()->json($resultResponse);
     }
 
+    public function getByDni($dni)
+    {
+        $resultResponse = new ResultResponse();
+
+        try {
+            $usuario = Usuario::where('dni', $dni)->first();
+
+            if (!$usuario) {
+                throw new \Exception('Usuario no encontrado.');
+            }
+
+            $resultResponse->setData($usuario);
+            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+        } catch (\Exception $e) {
+            $resultResponse->setStatusCode(ResultResponse::ERROR_ELEMENT_NOT_FOUND_CODE);
+            $resultResponse->setMessage($e->getMessage());
+        }
+
+        return response()->json($resultResponse);
+    }
+
     /**
      * Validate the user data before storing it in the database.
      */

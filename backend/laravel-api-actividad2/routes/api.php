@@ -59,6 +59,7 @@ Route::controller(UsuarioController::class)->prefix('usuarios')->group(function 
     Route::put('/{id}', 'put');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
+    Route::get('/dni/{dni}', 'getByDni');
     
 });
 
