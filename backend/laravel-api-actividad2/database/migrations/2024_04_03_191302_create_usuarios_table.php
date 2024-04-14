@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('ciudad');
             $table->string('pais');
             $table->string('correo')->unique();
-            $table->string('contraseña');
             $table->string('telefono', 20);
             $table->timestamps();
             $table->softDeletes();

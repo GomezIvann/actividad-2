@@ -22,7 +22,6 @@ class UsuariosSeeder extends Seeder
             'ciudad' => 'Ciudad Ejemplo',
             'pais' => 'País Ejemplo',
             'correo' => 'usuario1@example.com',
-            'contraseña' => bcrypt('contraseña123'),
             'telefono' => '123456789'
         ]);
         Usuario::create([
@@ -33,7 +32,6 @@ class UsuariosSeeder extends Seeder
             'ciudad' => 'Otra Ciudad',
             'pais' => 'Otro País',
             'correo' => 'usuario2@example.com',
-            'contraseña' => bcrypt('password123'),
             'telefono' => '987654321'
         ]);
     }

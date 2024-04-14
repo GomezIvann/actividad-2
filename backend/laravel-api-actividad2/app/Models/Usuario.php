@@ -19,7 +19,6 @@ class Usuario extends Model
         'ciudad',
         'pais',
         'correo',
-        'contraseña',
         'telefono',
     ];
 }
