@@ -31,7 +31,8 @@ export class CitaService {
       `${this.url}/${idCita}/servicios`
     );
   }
-  reservarCita(cita: Cita, idsServicios: Servicio['id'][]) {
+  reservarCita(cita: Cita, idsServicios: Servicio['id'][]): boolean {
+    let exito = false;
     this.http.post<RespuestaAPI<Cita>>(this.url, cita).subscribe({
       next: (response) => {
         idsServicios.forEach((id) => {
@@ -40,9 +41,10 @@ export class CitaService {
               `${this.url}/${response.data.id}/servicios/${id}`,
               {}
             )
-            .subscribe();
+            .subscribe({ next: () => (exito = true) });
         });
       },
     });
+    return exito;
   }
 }

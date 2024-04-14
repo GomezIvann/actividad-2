@@ -24,7 +24,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     else usuarioActualId = usuarioServicio.registrarUsuario(usuario).id;
 
     // Reservar cita
-    citaServicio.reservarCita(cita, idsServicios);
-    return true;
+    return citaServicio.reservarCita(cita, idsServicios);
   }
 };

@@ -16,7 +16,6 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { EmpleadoService } from '../../services/empleado.service';
 import { Empleado } from '../../interfaces/empleado';
 import { Router } from '@angular/router';
-import { CitaService } from '../../services/cita.service';
 import { Usuario } from '../../interfaces/usuario';
 import { UsuarioService } from '../../services/usuario.service';
 import { RespuestaAPI } from '../../common/respuestas-api';
@@ -77,7 +76,6 @@ export class ReservarCitaComponent {
   });
 
   constructor(
-    private _citaServicio: CitaService,
     private _empleadoServicio: EmpleadoService,
     private _servicioServicio: ServicioService,
     private _usuarioServicio: UsuarioService,
