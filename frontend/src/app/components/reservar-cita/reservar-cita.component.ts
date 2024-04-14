@@ -21,6 +21,7 @@ import { Usuario } from '../../interfaces/usuario';
 import { UsuarioService } from '../../services/usuario.service';
 import { RespuestaAPI } from '../../common/respuestas-api';
 import { Cita } from '../../interfaces/cita';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-reservar-cita',
@@ -41,7 +42,7 @@ export class ReservarCitaComponent {
   empleadosDisponibles: Empleado[] = [];
   tiendas: Tienda[] = [];
   horariosDisponibles: string[] = [];
-  usuarioExistente: boolean = false;
+  existeUsuario: boolean = false;
   usuarioActualId: number = -1;
 
   reservarCitaForm = this._formBuilder.group({
@@ -81,6 +82,7 @@ export class ReservarCitaComponent {
     private _servicioServicio: ServicioService,
     private _usuarioServicio: UsuarioService,
     private _tiendaServicio: TiendaService,
+    private _authService: AuthService,
     private _formBuilder: FormBuilder,
     private _router: Router
   ) {}
@@ -230,7 +232,7 @@ export class ReservarCitaComponent {
       this.ciudad.setValue(respuesta.data.ciudad);
       this.pais.setValue(respuesta.data.pais);
       this.usuarioActualId = respuesta.data.id;
-      this.usuarioExistente = true;
+      this.existeUsuario = true;
     }
   }
 
@@ -246,38 +248,31 @@ export class ReservarCitaComponent {
   reservarCita(): void {
     const textoConfirmacion = 'Vas a reservar la cita, ¿estás seguro?';
     if (confirm(textoConfirmacion)) {
-      this.gestionarUsuarioFormulario();
-      this.gestionarCitaFormulario();
+      const usuario: Usuario = {
+        nombre: this.nombre.value,
+        apellido: this.apellidos.value,
+        dni: this.dni.value,
+        correo: this.email.value,
+        telefono: this.telefono.value,
+        direccion: this.direccion.value,
+        ciudad: this.ciudad.value,
+        pais: this.pais.value,
+      };
+      const cita: Cita = {
+        id_usuario: this.usuarioActualId,
+        id_empleado: this.empleado.value,
+        id_tienda: this.tienda.value,
+        fecha: this.fecha.value,
+        hora: this.horario.value,
+      };
+      this._authService.guardarDatosFormulario(
+        cita,
+        usuario,
+        this.usuarioActualId,
+        this.existeUsuario,
+        this.servicio.value
+      );
       this._router.navigate(['/cita-confirmada']);
     }
-  }
-
-  private gestionarUsuarioFormulario(): void {
-    const usuario: Usuario = {
-      nombre: this.nombre.value,
-      apellido: this.apellidos.value,
-      dni: this.dni.value,
-      correo: this.email.value,
-      telefono: this.telefono.value,
-      direccion: this.direccion.value,
-      ciudad: this.ciudad.value,
-      pais: this.pais.value,
-    };
-    if (this.usuarioExistente)
-      this._usuarioServicio.actualizarUsuario(this.usuarioActualId, usuario);
-    else
-      this.usuarioActualId = this._usuarioServicio.registrarUsuario(usuario).id;
-  }
-
-  private gestionarCitaFormulario(): void {
-    const cita: Cita = {
-      id_usuario: this.usuarioActualId,
-      id_empleado: this.empleado.value,
-      id_tienda: this.tienda.value,
-      fecha: this.fecha.value,
-      hora: this.horario.value,
-    };
-    const servicios: Servicio['id'][] = this.servicio.value;
-    this._citaServicio.reservarCita(cita, servicios);
   }
 }
