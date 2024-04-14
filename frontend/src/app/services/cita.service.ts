@@ -31,7 +31,18 @@ export class CitaService {
       `${this.url}/${idCita}/servicios`
     );
   }
-  reservarCita(cita: Cita) {
-    this.http.post<RespuestaAPI<Cita>>(this.url, cita).subscribe();
+  reservarCita(cita: Cita, idsServicios: Servicio['id'][]) {
+    this.http.post<RespuestaAPI<Cita>>(this.url, cita).subscribe({
+      next: (response) => {
+        idsServicios.forEach((id) => {
+          this.http
+            .post<RespuestaAPI<Servicio>>(
+              `${this.url}/${response.data.id}/servicios/${id}`,
+              {}
+            )
+            .subscribe();
+        });
+      },
+    });
   }
 }

@@ -13,14 +13,14 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) {}
 
-  registrarUsuario(usuario: Usuario) {
-    let res: RespuestaAPI<Usuario>;
+  registrarUsuario(usuario: Usuario): Usuario {
+    let usuarioRegistrado: Usuario;
     this.http.post<RespuestaAPI<Usuario>>(this.url, usuario).subscribe({
-      next: (v) => {
-        res = v;
+      next: (response) => {
+        usuarioRegistrado = response.data;
       },
     });
-    return res;
+    return usuarioRegistrado;
   }
   obtenerUsuarioPorDni(dni: string): Observable<RespuestaAPI<Usuario>> {
     return this.http.get<RespuestaAPI<Usuario>>(`${this.url}/dni/${dni}`);

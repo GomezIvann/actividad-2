@@ -235,30 +235,6 @@ export class ReservarCitaComponent {
   }
 
   /**
-   * Obtiene los empleados disponibles para la fecha y hora seleccionada.
-   */
-  private obtenerEmpleadosDisponibles() {
-    this.empleados = this.empleados.filter((empleado) => {
-      this._citaServicio
-        .obtenerCitasEmpleado(empleado.id)
-        .subscribe((respuesta) => {
-          const citasEmpleado = respuesta.data.data;
-
-          citasEmpleado.forEach((cita) => {
-            if (
-              cita.fecha === this.fecha.value &&
-              cita.hora === this.horario.value
-            ) {
-              this.empleados = this.empleados.filter(
-                (empleado) => empleado.id !== cita.id_empleado
-              );
-            }
-          });
-        });
-    });
-  }
-
-  /**
    * Obtiene los empleados de la tienda seleccionada.
    */
   private obtenerEmpleadosTienda() {
@@ -271,14 +247,7 @@ export class ReservarCitaComponent {
     const textoConfirmacion = 'Vas a reservar la cita, ¿estás seguro?';
     if (confirm(textoConfirmacion)) {
       this.gestionarUsuarioFormulario();
-      const cita: Cita = {
-        id_usuario: this.usuarioActualId,
-        id_empleado: this.empleado.value,
-        id_tienda: this.tienda.value,
-        fecha: this.fecha.value,
-        hora: this.horario.value,
-      };
-      this._citaServicio.reservarCita(cita);
+      this.gestionarCitaFormulario();
       this._router.navigate(['/cita-confirmada']);
     }
   }
@@ -297,7 +266,18 @@ export class ReservarCitaComponent {
     if (this.usuarioExistente)
       this._usuarioServicio.actualizarUsuario(this.usuarioActualId, usuario);
     else
-      this.usuarioActualId =
-        this._usuarioServicio.registrarUsuario(usuario).data.id;
+      this.usuarioActualId = this._usuarioServicio.registrarUsuario(usuario).id;
+  }
+
+  private gestionarCitaFormulario(): void {
+    const cita: Cita = {
+      id_usuario: this.usuarioActualId,
+      id_empleado: this.empleado.value,
+      id_tienda: this.tienda.value,
+      fecha: this.fecha.value,
+      hora: this.horario.value,
+    };
+    const servicios: Servicio['id'][] = this.servicio.value;
+    this._citaServicio.reservarCita(cita, servicios);
   }
 }
