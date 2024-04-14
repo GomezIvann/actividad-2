@@ -3,7 +3,12 @@ import { ServicioService } from '../../services/servicio.service';
 import { Servicio } from '../../interfaces/servicio';
 import { Tienda } from '../../interfaces/tienda';
 import { TiendaService } from '../../services/tienda.service';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,9 +17,10 @@ import { EmpleadoService } from '../../services/empleado.service';
 import { Empleado } from '../../interfaces/empleado';
 import { Router } from '@angular/router';
 import { CitaService } from '../../services/cita.service';
-import { Cita } from '../../interfaces/cita';
 import { Usuario } from '../../interfaces/usuario';
 import { UsuarioService } from '../../services/usuario.service';
+import { RespuestaAPI } from '../../common/respuestas-api';
+import { Cita } from '../../interfaces/cita';
 
 @Component({
   selector: 'app-reservar-cita',
@@ -32,9 +38,11 @@ import { UsuarioService } from '../../services/usuario.service';
 export class ReservarCitaComponent {
   servicios: Servicio[] = [];
   empleados: Empleado[] = [];
+  empleadosDisponibles: Empleado[] = [];
   tiendas: Tienda[] = [];
-
   horariosDisponibles: string[] = [];
+  usuarioExistente: boolean = false;
+  usuarioActualId: number = -1;
 
   reservarCitaForm = this._formBuilder.group({
     formArray: this._formBuilder.array([
@@ -57,12 +65,12 @@ export class ReservarCitaComponent {
       }),
       this._formBuilder.group({
         servicio: ['', Validators.required],
-        fecha: ['', Validators.required],
+        fecha: ['', [Validators.required, this.esFechaPosteriorValidator()]],
         horario: [{ value: '', disabled: true }, Validators.required],
       }),
       this._formBuilder.group({
-        empleado: [''],
-        tienda: [''],
+        tienda: ['', Validators.required],
+        empleado: [{ value: '', disabled: true }, Validators.required],
       }),
     ]),
   });
@@ -92,34 +100,22 @@ export class ReservarCitaComponent {
       this._usuarioServicio
         .obtenerUsuarioPorDni(this.dni.value)
         .subscribe((respuesta) => {
-          if (
-            respuesta.message === 'success' &&
-            confirm(
-              'Ya has reservado previamente con nosotros, ¿deseas rellenar los campos automáticamente con la información de tu última reserva?'
-            )
-          ) {
-            this.nombre.setValue(respuesta.data.nombre);
-            this.apellidos.setValue(respuesta.data.apellidos);
-            this.email.setValue(respuesta.data.correo);
-            this.telefono.setValue(respuesta.data.telefono);
-            this.direccion.setValue(respuesta.data.direccion);
-            this.ciudad.setValue(respuesta.data.ciudad);
-            this.pais.setValue(respuesta.data.pais);
-          }
+          this.consultarUsuarioActualPorDni(respuesta);
         });
     });
-
     this.fecha.valueChanges.subscribe(() => {
-      if (this.formArray.at(1).get('fecha').value) {
-        this.formArray.at(1).get('horario').enable();
-        this.generarHorariosDisponibles(
-          this.formArray.at(1).get('fecha').value
-        );
+      if (this.fecha.value && this.fecha.valid) {
+        this.horario.enable();
+        this.generarHorariosDisponibles(this.fecha.value);
+      }
+      if (this.fecha.value && this.fecha.invalid) {
+        this.horario.disable();
+        this.horario.setValue('');
       }
     });
-    this.servicio.valueChanges.subscribe(() => {
-      if (this.formArray.at(1).get('servicio').value)
-        this.formArray.at(1).get('empleado').enable();
+    this.tienda.valueChanges.subscribe(() => {
+      this.obtenerEmpleadosTienda();
+      this.empleado.enable();
     });
   }
 
@@ -180,13 +176,27 @@ export class ReservarCitaComponent {
   }
 
   /**
+   * Comprueba si la fecha seleccionada es posterior a la actual.
+   * @returns
+   */
+  esFechaPosteriorValidator(): any {
+    return (control: FormControl) => {
+      const selectedDate = new Date(control.value);
+      const currentDate = new Date();
+      currentDate.setHours(0, 0, 0, 0);
+      return currentDate >= selectedDate ? { fechaAnterior: true } : null;
+    };
+  }
+
+  /**
    * Genera los horarios disponibles para la fecha seleccionada
    * Si la fecha seleccionada es la actual, se generan los horarios a partir de la hora actual.
    * Si la fecha seleccionada es distinta a la actual, se generan los horarios a partir de las 9:00 hasta las 20:00.
    * @param fecha
    */
-  generarHorariosDisponibles(fechaSeleccionada: string): void {
+  private generarHorariosDisponibles(fechaSeleccionada: string): void {
     const fechaActual = new Date().toISOString().split('T')[0];
+    this.horariosDisponibles = [];
     if (fechaSeleccionada === fechaActual) {
       const horaActual = new Date().getHours() + 1;
       for (let i = horaActual; i <= 20; i++) {
@@ -201,32 +211,93 @@ export class ReservarCitaComponent {
     }
   }
 
+  /**
+   * Consulta si el usuario actual ha reservado previamente con nosotros y rellena los campos automáticamente
+   * @param respuesta
+   */
+  private consultarUsuarioActualPorDni(respuesta: RespuestaAPI<Usuario>): void {
+    if (
+      respuesta.message === 'Success' &&
+      confirm(
+        'Ya has reservado previamente con nosotros, ¿deseas rellenar los campos automáticamente con la información de tu última reserva?'
+      )
+    ) {
+      this.nombre.setValue(respuesta.data.nombre);
+      this.apellidos.setValue(respuesta.data.apellido);
+      this.email.setValue(respuesta.data.correo);
+      this.telefono.setValue(respuesta.data.telefono);
+      this.direccion.setValue(respuesta.data.direccion);
+      this.ciudad.setValue(respuesta.data.ciudad);
+      this.pais.setValue(respuesta.data.pais);
+      this.usuarioActualId = respuesta.data.id;
+      this.usuarioExistente = true;
+    }
+  }
+
+  /**
+   * Obtiene los empleados disponibles para la fecha y hora seleccionada.
+   */
+  private obtenerEmpleadosDisponibles() {
+    this.empleados = this.empleados.filter((empleado) => {
+      this._citaServicio
+        .obtenerCitasEmpleado(empleado.id)
+        .subscribe((respuesta) => {
+          const citasEmpleado = respuesta.data.data;
+
+          citasEmpleado.forEach((cita) => {
+            if (
+              cita.fecha === this.fecha.value &&
+              cita.hora === this.horario.value
+            ) {
+              this.empleados = this.empleados.filter(
+                (empleado) => empleado.id !== cita.id_empleado
+              );
+            }
+          });
+        });
+    });
+  }
+
+  /**
+   * Obtiene los empleados de la tienda seleccionada.
+   */
+  private obtenerEmpleadosTienda() {
+    this.empleadosDisponibles = this.empleados.filter(
+      (empleado) => empleado.id_tienda == this.tienda.value
+    );
+  }
+
   reservarCita(): void {
     const textoConfirmacion = 'Vas a reservar la cita, ¿estás seguro?';
-    if (confirm(textoConfirmacion) == true) {
-      const usuario: Usuario = {
-        dni: this.dni.value,
-        nombre: this.nombre.value,
-        apellidos: this.apellidos.value,
-        direccion: this.direccion.value,
-        ciudad: this.ciudad.value,
-        pais: this.pais.value,
-        correo: this.email.value,
-        telefono: this.telefono.value,
+    if (confirm(textoConfirmacion)) {
+      this.gestionarUsuarioFormulario();
+      const cita: Cita = {
+        id_usuario: this.usuarioActualId,
+        id_empleado: this.empleado.value,
+        id_tienda: this.tienda.value,
+        fecha: this.fecha.value,
+        hora: this.horario.value,
       };
-      // const cita: Cita = {
-      //   id_usuario: usuario.id,
-      //   id_empleado: this.empleado.value,
-      //   id_tienda: this.tienda.value,
-      //   fecha: this.fecha.value,
-      //   hora: this.horario.value,
-      //   dni: usuario.dni,
-      // };
-      this._usuarioServicio.registrarUsuario(usuario);
-      // this._citaServicio.reservarCita(cita);
-
-      // TODO: Redirigir a la página de confirmación de cita SOLO si la petición se ha realizado correctamente
-      // this._router.navigate(['/cita-confirmada']);
+      this._citaServicio.reservarCita(cita);
+      this._router.navigate(['/cita-confirmada']);
     }
+  }
+
+  private gestionarUsuarioFormulario(): void {
+    const usuario: Usuario = {
+      nombre: this.nombre.value,
+      apellido: this.apellidos.value,
+      dni: this.dni.value,
+      correo: this.email.value,
+      telefono: this.telefono.value,
+      direccion: this.direccion.value,
+      ciudad: this.ciudad.value,
+      pais: this.pais.value,
+    };
+    if (this.usuarioExistente)
+      this._usuarioServicio.actualizarUsuario(this.usuarioActualId, usuario);
+    else
+      this.usuarioActualId =
+        this._usuarioServicio.registrarUsuario(usuario).data.id;
   }
 }

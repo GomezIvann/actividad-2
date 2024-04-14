@@ -16,7 +16,7 @@
     (ngSubmit)="reservarCita()"
     #rescitForm="ngForm"
   >
-    <mat-stepper formArrayName="formArray" linear>
+    <mat-stepper formArrayName="formArray">
       <mat-step
         formGroupName="0"
         [stepControl]="formArray.get([0])"
@@ -263,44 +263,58 @@
             </div>
           </div>
           <div class="col">
-            <label for="fecha" class="form-label">Fecha</label>
-            <input
-              type="date"
-              class="form-control"
-              id="fecha"
-              name="fecha"
-              formControlName="fecha"
-              required
-            />
-            <div
-              *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)"
-              style="position: absolute"
-            >
-              <div *ngIf="fecha.errors?.required" class="text-danger">
-                Debes seleccionar una fecha.
+            <div class="row">
+              <div class="col mb-5">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fecha"
+                  name="fecha"
+                  formControlName="fecha"
+                  required
+                />
+                <div
+                  *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)"
+                  style="position: absolute"
+                >
+                  <div *ngIf="fecha.errors?.fechaAnterior" class="text-danger">
+                    La fecha escogida debe ser posterior a la fecha actual.
+                  </div>
+                  <div *ngIf="fecha.errors?.required" class="text-danger">
+                    Debes seleccionar una fecha.
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col">
-            <label for="horario" class="form-label">Horario</label>
-            <select
-              class="form-select"
-              id="horario"
-              name="horario"
-              formControlName="horario"
-              required
-            >
-              <option value="" disabled selected>Selecciona un horario</option>
-              <option *ngFor="let hora of horariosDisponibles" [value]="hora">
-                {{ hora }}
-              </option>
-            </select>
-            <div
-              *ngIf="horario.invalid && (horario.dirty || horario.touched)"
-              style="position: absolute"
-            >
-              <div *ngIf="horario.errors?.required" class="text-danger">
-                Debes seleccionar una hora.
+            <div class="row">
+              <div class="col">
+                <label for="horario" class="form-label">Horario</label>
+                <select
+                  class="form-select"
+                  id="horario"
+                  name="horario"
+                  formControlName="horario"
+                  required
+                >
+                  <option value="" disabled selected>
+                    Selecciona un horario
+                  </option>
+                  <option
+                    *ngFor="let hora of horariosDisponibles"
+                    [value]="hora"
+                  >
+                    {{ hora }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="horario.invalid && (horario.dirty || horario.touched)"
+                  style="position: absolute"
+                >
+                  <div *ngIf="horario.errors?.required" class="text-danger">
+                    Debes seleccionar una hora.
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -330,38 +344,55 @@
       >
         <div class="row mt-5 mb-5">
           <div class="col">
-            <label for="empleado" class="form-label">
-              Empleado
-              <span class="text-muted">(opcional)</span>
-            </label>
-            <select
-              class="form-select"
-              id="empleado"
-              name="empleado"
-              formControlName="empleado"
-            >
-              <option value="" selected>Selecciona un empleado</option>
-              <option *ngFor="let empleado of empleados" [value]="empleado.id">
-                {{ empleado.nombre }}
-              </option>
-            </select>
-          </div>
-          <div class="col">
-            <label for="tienda" class="form-label">
-              Tienda
-              <span class="text-muted">(opcional)</span>
-            </label>
+            <label for="tienda" class="form-label">Tienda</label>
             <select
               class="form-select"
               id="tienda"
               name="tienda"
               formControlName="tienda"
+              required
             >
-              <option value="" selected>Selecciona una localización</option>
+              <option value="" disabled selected>
+                Selecciona una localización
+              </option>
               <option *ngFor="let tienda of tiendas" [value]="tienda.id">
                 {{ tienda.direccion }}
               </option>
             </select>
+            <div
+              *ngIf="tienda.invalid && (tienda.dirty || tienda.touched)"
+              style="position: absolute"
+            >
+              <div *ngIf="tienda.errors?.required" class="text-danger">
+                Debes seleccionar una tienda.
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <label for="empleado" class="form-label">Empleado</label>
+            <select
+              class="form-select"
+              id="empleado"
+              name="empleado"
+              formControlName="empleado"
+              required
+            >
+              <option value="" disabled selected>Selecciona un empleado</option>
+              <option
+                *ngFor="let empleado of empleadosDisponibles"
+                [value]="empleado.id"
+              >
+                {{ empleado.nombre }}
+              </option>
+            </select>
+            <div
+              *ngIf="empleado.invalid && (empleado.dirty || empleado.touched)"
+              style="position: absolute"
+            >
+              <div *ngIf="empleado.errors?.required" class="text-danger">
+                Debes seleccionar un empleado.
+              </div>
+            </div>
           </div>
         </div>
         <div class="pt-4 d-flex justify-content-center gap-2">

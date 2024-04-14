@@ -19,12 +19,19 @@ export class CitaService {
       `${this.url}/usuario/${dni}`
     );
   }
+  obtenerCitasEmpleado(
+    idEmpleado: number
+  ): Observable<RespuestaAPIPaginada<Cita[]>> {
+    return this.http.get<RespuestaAPIPaginada<Cita[]>>(
+      `${this.url}/empleado/${idEmpleado}`
+    );
+  }
   obtenerServiciosCita(idCita: number): Observable<RespuestaAPI<Servicio[]>> {
     return this.http.get<RespuestaAPI<Servicio[]>>(
       `${this.url}/${idCita}/servicios`
     );
   }
   reservarCita(cita: Cita) {
-    return this.http.post<RespuestaAPI<Cita>>(this.url, cita);
+    this.http.post<RespuestaAPI<Cita>>(this.url, cita).subscribe();
   }
 }

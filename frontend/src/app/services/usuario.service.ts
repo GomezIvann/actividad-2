@@ -13,10 +13,21 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) {}
 
-  registrarUsuario(usuario: Usuario): Observable<RespuestaAPI<Usuario>> {
-    return this.http.post<RespuestaAPI<Usuario>>(this.url, usuario);
+  registrarUsuario(usuario: Usuario) {
+    let res: RespuestaAPI<Usuario>;
+    this.http.post<RespuestaAPI<Usuario>>(this.url, usuario).subscribe({
+      next: (v) => {
+        res = v;
+      },
+    });
+    return res;
   }
   obtenerUsuarioPorDni(dni: string): Observable<RespuestaAPI<Usuario>> {
-    return this.http.get<RespuestaAPI<Usuario>>(`${this.url}/${dni}`);
+    return this.http.get<RespuestaAPI<Usuario>>(`${this.url}/dni/${dni}`);
+  }
+  actualizarUsuario(id: number, usuario: Usuario) {
+    this.http
+      .patch<RespuestaAPI<Usuario>>(`${this.url}/${id}`, usuario)
+      .subscribe();
   }
 }
