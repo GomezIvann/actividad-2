@@ -104,7 +104,7 @@ class TiendaController extends Controller
     /**
  * Actualiza la tienda especificada en la base de datos.
  */
-public function put(Request $request, $id)
+public function patch(Request $request, $id)
 {
     $resultResponse = new ResultResponse();
 

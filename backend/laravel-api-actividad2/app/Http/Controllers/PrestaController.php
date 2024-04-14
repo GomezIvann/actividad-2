@@ -107,7 +107,7 @@ class PrestaController extends Controller
         /**
      * Update the specified resource in storage.
      */
-    public function put(Request $request, $codigo_servicio, $id_empleado)
+    public function patch(Request $request, $codigo_servicio, $id_empleado)
     {
         $resultResponse = new ResultResponse();
 

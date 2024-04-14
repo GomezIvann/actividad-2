@@ -28,8 +28,8 @@ Route::controller(TiendaController::class)->prefix('tiendas')->group(function ()
 
     Route::get('/', 'index');
     Route::post('/', 'store');
-    Route::post('/{id}','update');
-    Route::put('/{id}', 'put');
+    Route::put('/{id}','update');
+    Route::patch('/{id}', 'patch');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
     Route::get('/buscar', 'buscar');
@@ -40,8 +40,8 @@ Route::controller(ServicioController::class)->prefix('servicios')->group(functio
 
     Route::get('/', 'index');
     Route::post('/', 'store');
-    Route::post('/{id}','update');
-    Route::put('/{id}', 'put');
+    Route::put('/{id}','update');
+    Route::patch('/{id}', 'patch');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
     Route::delete('/{servicioId}/empleados/{empleadoId}', 'deleteEmpleadosQuePrestanServicio');
@@ -56,8 +56,8 @@ Route::controller(UsuarioController::class)->prefix('usuarios')->group(function 
 
     Route::get('/', 'index');
     Route::post('/', 'store');
-    Route::post('/{id}','update');
-    Route::put('/{id}', 'put');
+    Route::put('/{id}','update');
+    Route::patch('/{id}', 'patch');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
     Route::get('/dni/{dni}', 'getByDni');
@@ -69,8 +69,8 @@ Route::controller(EmpleadoController::class)->prefix('empleados')->group(functio
 
     Route::get('/', 'index');
     Route::post('/', 'store');
-    Route::post('/{id}','update');
-    Route::put('/{id}', 'put');
+    Route::put('/{id}','update');
+    Route::patch('/{id}', 'patch');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
     Route::get('/{empleado}/servicios', 'obtenerServicios');
@@ -83,8 +83,8 @@ Route::controller(CitasController::class)->prefix('citas')->group(function () {
 
     Route::get('/', 'index');
     Route::post('/', 'store');
-    Route::post('/{id}','update');
-    Route::put('/{id}', 'put');
+    Route::put('/{id}','update');
+    Route::patch('/{id}', 'patch');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
     Route::get('/{cita}/servicios', 'obtenerServiciosDeCita');
@@ -100,8 +100,8 @@ Route::controller(PrestaController::class)->prefix('presta')->group(function () 
 
     Route::get('/', 'index');
     Route::post('/', 'store');
-    Route::post('/{id}','update');
-    Route::put('/{id}', 'put');
+    Route::put('/{id}','update');
+    Route::patch('/{id}', 'patch');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
     
@@ -111,8 +111,8 @@ Route::controller(OfreceController::class)->prefix('ofrece')->group(function () 
 
     Route::get('/', 'index');
     Route::post('/', 'store');
-    Route::post('/{id}','update');
-    Route::put('/{id}', 'put');
+    Route::put('/{id}','update');
+    Route::patch('/{id}', 'patch');
     Route::get('/{id}', 'show');
     Route::delete('/{id}', 'delete');
     

@@ -101,7 +101,7 @@ class ServicioController extends Controller
         return response()->json($resultResponse);
     }
     
-    public function put(Request $request, $id)
+    public function patch(Request $request, $id)
     {
         $resultResponse = new ResultResponse();
 
