@@ -8,9 +8,6 @@ use App\Models\Empleado;
 
 class EmpleadosSeeder extends Seeder
 {
-  /**
-   * Run the database seeds.
-   */
   public function run()
   {
     DB::table('empleado')->insert([

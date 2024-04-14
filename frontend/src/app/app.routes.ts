@@ -23,6 +23,21 @@ export const routes: Routes = [
     title: 'Inicio',
   },
   {
+    path: 'reservar-cita',
+    component: ReservarCitaComponent,
+    title: 'Reserva tu cita',
+  },
+  {
+    path: 'consultar-citas',
+    component: ConsultarCitasComponent,
+    title: 'Consultar citas',
+  },
+  {
+    path: 'empleados',
+    component: EmpleadosComponent,
+    title: 'Empleados',
+  },
+  {
     path: 'servicios',
     component: ServiciosComponent,
     title: 'Servicios',
@@ -48,25 +63,10 @@ export const routes: Routes = [
     title: 'Detalles del empleado',
   },
   {
-    path: 'reservar-cita',
-    component: ReservarCitaComponent,
-    title: 'Reserva tu cita',
-  },
-  {
-    path: 'empleados',
-    component: EmpleadosComponent,
-    title: 'Empleados',
-  },
-  {
     path: 'cita-confirmada',
     component: CitaConfirmadaComponent,
     title: 'Cita confirmada',
     canActivate: [authGuard],
-  },
-  {
-    path: 'consultar-citas',
-    component: ConsultarCitasComponent,
-    title: 'Consultar citas',
   },
   {
     path: '**',
