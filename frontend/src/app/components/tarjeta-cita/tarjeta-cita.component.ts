@@ -17,7 +17,7 @@ export class TarjetaCitaComponent {
 
   obtenerCosteCita(): number {
     return this.cita.servicios?.reduce(
-      (total, servicio) => total + servicio.precio,
+      (total, servicio) => total + Number(servicio.precio),
       0
     );
   }
