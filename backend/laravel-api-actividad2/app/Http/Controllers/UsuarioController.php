@@ -41,7 +41,6 @@ class UsuarioController extends Controller
                 'ciudad' => $request->input('ciudad'),
                 'pais' => $request->input('pais'),
                 'correo' => $request->input('correo'),
-                'contraseña' => $request->input('contraseña'),
                 'telefono' => $request->input('telefono'),
             ]);
 
@@ -95,7 +94,6 @@ class UsuarioController extends Controller
             $usuario->ciudad = $request->input('ciudad', $usuario->ciudad);
             $usuario->pais = $request->input('pais', $usuario->pais);
             $usuario->correo = $request->input('correo', $usuario->correo);
-            $usuario->contraseña = $request->input('contraseña', $usuario->contraseña);
             $usuario->telefono = $request->input('telefono', $usuario->telefono);
 
             $usuario->save();
@@ -125,7 +123,6 @@ class UsuarioController extends Controller
             $usuario->ciudad = $request->input('ciudad', $usuario->ciudad);
             $usuario->pais = $request->input('pais', $usuario->pais);
             $usuario->correo = $request->input('correo', $usuario->correo);
-            $usuario->contraseña = $request->input('contraseña', $usuario->contraseña);
             $usuario->telefono = $request->input('telefono', $usuario->telefono);
 
             $usuario->save();
@@ -235,7 +232,6 @@ class UsuarioController extends Controller
             'ciudad' => 'required|string|max:255',
             'pais' => 'required|string|max:255',
             'correo' => 'required|string|max:255',
-            'contraseña' => 'required|string|max:255',
             'telefono' => 'required|integer',
         ];
 
