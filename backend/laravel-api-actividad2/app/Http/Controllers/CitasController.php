@@ -213,7 +213,6 @@ class CitasController extends Controller
 
         try {
             $cita = Cita::findOrFail($citaId);
-            // Eliminar la relación entre la cita y el servicio
             $cita->servicios()->detach($servicioId);
             $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
             $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);  
@@ -272,11 +271,9 @@ class CitasController extends Controller
         $resultResponse = new ResultResponse();
 
         try {
-            // Buscar al usuario por su DNI
             $usuario = Usuario::where('dni', $dni)->first();
 
             if ($usuario) {
-                // Obtener las citas asociadas al usuario encontrando su ID
                 $citas = Cita::where('id_usuario', $usuario->id)->paginate(10);
 
                 $resultResponse->setData($citas);
