@@ -34,7 +34,6 @@ export class DetallesEmpleadoComponent {
           this._servicioTienda
             .obtenerTiendaPorId(this.empleado.id_tienda)
             .subscribe((respuesta) => {
-              console.log(respuesta.data);
               this.tienda = respuesta.data;
             });
         });

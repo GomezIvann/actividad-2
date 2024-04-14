@@ -12,12 +12,11 @@ import { CommonModule } from '@angular/common';
 })
 export class TarjetaCitaComponent {
   @Input() cita: Cita;
-  coste: number = 0;
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.coste = this.cita.servicios.reduce(
+  obtenerCosteCita(): number {
+    return this.cita.servicios?.reduce(
       (total, servicio) => total + servicio.precio,
       0
     );
