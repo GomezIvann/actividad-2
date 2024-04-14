@@ -9,23 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-        $this->call(TiendasSeeder::class);
-        $this->call(UsuariosSeeder::class);
-        $this->call(ServiciosSeeder::class);
-        $this->call(EmpleadosSeeder::class);
-        $this->call(CitasSeeder::class);
-        $this->call(PrestaSeeder::class);
-        $this->call(OfreceSeeder::class);
-    }
+  public function run(): void
+  {
+    $this->call(TiendasSeeder::class);
+    $this->call(UsuariosSeeder::class);
+    $this->call(ServiciosSeeder::class);
+    $this->call(EmpleadosSeeder::class);
+    $this->call(CitasSeeder::class);
+    $this->call(PrestaSeeder::class);
+    $this->call(OfreceSeeder::class);
+  }
 }
