@@ -149,7 +149,7 @@ public function patch(Request $request, $id)
             $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);  
         } catch (\Exception $e) {
             $resultResponse->setStatusCode(ResultResponse::ERROR_ELEMENT_NOT_FOUND_CODE);
-            $resultResponse->setMessage(ResultResponse::TXT_ERROR_ELEMENT_NOT_FOUND_CODE);
+            $resultResponse->setMessage($e->getMessage());
         }
 
         return response()->json($resultResponse);

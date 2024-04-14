@@ -9,5 +9,6 @@ class Tienda extends Model
 {
     use HasFactory;
     protected $table = 'tienda';
+    protected $primaryKey = 'id';
     protected $fillable = ['horario', 'direccion', 'telefono', 'capacidad', 'estado', 'imagen'];
 }

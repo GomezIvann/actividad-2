@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreign('id_tienda')
                 ->references('id')
                 ->on('tienda')
-                ->onDelete('RESTRICT')
+                ->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
         });
     }
